@@ -34,8 +34,10 @@ const main = async () => {
       run(`${projectDir}/src/reaper/ahk.exe ${projectDir}/src/reaper/reap.ahk`);
       await wait(1000 * 60 * 5); // Wait 5 minutes
 
+      const winTitle = fs.readFileSync(`${projectDir}/src/reaper/window_title.txt`).toString();
+      console.log('Window Title', winTitle);
       const result = fs.readFileSync(`${projectDir}/src/reaper/hits/Capture.txt`).toString();
-      console.log('Updating with:\n', result);
+      console.log(`Updating with: \`${result}\``);
       axios
         .put(`${url}/api/lol_accounts/update`, result, { headers: { admin_secret_production: secret } })
         .then(rPut => {
