@@ -1,4 +1,3 @@
-sleep 500
 send %1%
 send {Enter}
 send 1
