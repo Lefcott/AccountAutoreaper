@@ -1,0 +1,37 @@
+{
+  "name": "accountautoreaper",
+  "version": "1.0.0",
+  "description": "automatic process",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src -e env,js,json",
+    "start": "node src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lefcott/AccountAutoreaper.git"
+  },
+  "author": "Leandro Cotti",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lefcott/AccountAutoreaper/issues"
+  },
+  "homepage": "https://github.com/Lefcott/AccountAutoreaper#readme",
+  "dependencies": {
+    "axios": "^0.20.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-config-strongloop": "^2.1.0",
+    "eslint-plugin-flowtype": "^2.39.1",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-prettier": "^3.0.0",
+    "eslint-plugin-react": "^7.11.0",
+    "prettier": "^2.1.1"
+  }
+}

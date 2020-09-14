@@ -1,0 +1,1 @@
+(echo LA2 && echo 4 && echo j) | raper.exe
