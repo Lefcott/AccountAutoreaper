@@ -13,7 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install dependences
-      run: npm install axios
+      run: npm install axios colors path
     - name: Hello
       run: echo Hi! This is an automatic process.
     - name: Current branch
