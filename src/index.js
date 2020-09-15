@@ -21,7 +21,7 @@ const main = async () => {
       {
         region,
         min_level: 30,
-        count: 10
+        count: 5
       },
       { headers: { admin_secret_production: secret } }
     )
