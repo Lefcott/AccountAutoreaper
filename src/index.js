@@ -1,3 +1,5 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable guard-for-in */
 const { default: axios } = require('axios');
 
 const fs = require('fs');
@@ -21,49 +23,52 @@ const main = async () => {
       {
         region,
         min_level: 30,
-        count: 5
+        count: 2
       },
       { headers: { admin_secret_production: secret } }
     )
     .then(async response => {
       console.log('Combo Status', response.status);
-      console.log('Combo Data', response.data);
       let [, combos] = response.data.split('\n\n');
-      combos = combos || response.data;
-      console.log('combos', combos);
-      run(`cd ${projectDir}/src/reaper && reaper.exe`);
-      fs.writeFileSync(`${projectDir}/src/reaper/combos.txt`, combos);
-      await wait(1000);
-      run(`cd ${projectDir}/src/reaper && ahk.exe reap.ahk ${programRegion}`);
-      await wait(20000); // Wait 10 secs
+      combos = (combos || response.data || '').split('\n');
+      console.log(`Combos:\n${combos}`);
 
-      await run(`cd ${projectDir}/src/reaper && ahk.exe save_title.ahk`);
-      const winTitle = fs.readFileSync(`${projectDir}/src/reaper/window_title.txt`).toString();
+      let first = true;
+      for (const combo in combos) {
+        if (!first) await run('taskkill /IM "._cache_reaper.exe" /F');
+        first = false;
+        fs.writeFileSync(`${projectDir}/src/reaper/combos.txt`, combo);
+        run(`cd ${projectDir}/src/reaper && reaper.exe`);
+        await wait(1000);
+        run(`cd ${projectDir}/src/reaper && ahk.exe reap.ahk ${programRegion}`);
+        await wait(5000);
+        await run(`cd ${projectDir}/src/reaper && ahk.exe save_title.ahk`);
+        const winTitle = fs.readFileSync(`${projectDir}/src/reaper/window_title.txt`).toString();
 
-      console.log('Window Title: ', winTitle);
-      const { total, hits, bad, retry, usernames } = getStatiscs(winTitle, combos);
-      console.log(`Total: ${total}, Hits: ${hits}, Bad: ${bad}, Retry: ${retry}, User Names: ${usernames}`);
+        console.log('Window Title: ', winTitle);
+        const { total, hits, bad, retry, usernames } = getStatiscs(winTitle, combos);
+        console.log(`Total: ${total}, Hits: ${hits}, Bad: ${bad}, Retry: ${retry}, User Names: ${usernames}`);
+        if (total === bad)
+          axios
+            .put(`${url}/api/lol_accounts/ignore/${region}`, combos, {
+              headers: { admin_secret_production: secret, 'Content-Type': 'text/plain' }
+            })
+            .then(rPut => {
+              console.log('Update Status', rPut.status);
+              console.log('Update Data', rPut.data);
+            })
+            .catch(console.error);
 
-      if (total === bad)
-        axios
-          .put(`${url}/api/lol_accounts/ignore/${region}`, combos, {
-            headers: { admin_secret_production: secret, 'Content-Type': 'text/plain' }
-          })
-          .then(rPut => {
-            console.log('Update Status', rPut.status);
-            console.log('Update Data', rPut.data);
-          })
-          .catch(console.error);
-
-      const result = fs.readFileSync(`${projectDir}/src/reaper/hits/Capture.txt`).toString();
-      console.log(`Updating if not empty with: \`${result}\``);
-      if (result)
-        axios
-          .put(`${url}/api/lol_accounts/update`, result, { headers: { admin_secret_production: secret } })
-          .then(rPut => {
-            console.log('Update Status', rPut.status);
-            console.log('Update Data', rPut.data);
-          });
+        const result = fs.readFileSync(`${projectDir}/src/reaper/hits/Capture.txt`).toString();
+        console.log(`Updating if not empty with: \`${result}\``);
+        if (result)
+          axios
+            .put(`${url}/api/lol_accounts/update`, result, { headers: { admin_secret_production: secret } })
+            .then(rPut => {
+              console.log('Update Status', rPut.status);
+              console.log('Update Data', rPut.data);
+            });
+      }
     })
     .catch(error => {
       console.error(error);
