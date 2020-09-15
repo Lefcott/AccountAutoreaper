@@ -40,8 +40,8 @@ const main = async () => {
       await run(`cd ${projectDir}/src/reaper && ahk.exe save_title.ahk`);
       const winTitle = fs.readFileSync(`${projectDir}/src/reaper/window_title.txt`).toString();
 
-      const { total, bad, usernames } = getStatiscs(winTitle, combos);
-      console.log(`Total: ${total}, Bad: ${bad}, User Names: ${usernames}`);
+      const { total, bad, retry, usernames } = getStatiscs(winTitle, combos);
+      console.log(`Total: ${total}, Bad: ${bad}, Retry: ${retry}, User Names: ${usernames}`);
 
       if (total === bad)
         axios
