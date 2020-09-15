@@ -30,7 +30,7 @@ const main = async () => {
     .then(async response => {
       console.log('Combo Status', response.status);
       let [, combos] = response.data.split('\n\n');
-      combos = (combos || response.data || '').split('\n');
+      combos = (combos || response.data || '').split('\n').filter(c => c);
       console.log(`Combos:\n${combos}`);
 
       let first = true;
