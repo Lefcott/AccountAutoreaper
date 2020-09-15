@@ -41,7 +41,7 @@ const main = async () => {
         run(`cd ${projectDir}/src/reaper && reaper.exe`);
         await wait(2000);
         run(`cd ${projectDir}/src/reaper && ahk.exe reap.ahk ${programRegion}`);
-        await wait(5000);
+        await wait(10000);
         await run(`cd ${projectDir}/src/reaper && ahk.exe save_title.ahk`);
         const winTitle = fs.readFileSync(`${projectDir}/src/reaper/window_title.txt`).toString();
 
