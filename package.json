@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/Lefcott/AccountAutoreaper#readme",
   "dependencies": {
-    "axios": "^0.20.0"
+    "axios": "^0.20.0",
+    "colors": "^1.4.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",

@@ -4,6 +4,7 @@ const fs = require('fs');
 
 const { run } = require('./utils/scripts');
 const { wait } = require('./utils/wait');
+const { getStatiscs } = require('./utils/statiscs');
 const projectDir = require('./utils/projectDir');
 
 const url = 'https://bloomebot-accounts-api.herokuapp.com';
@@ -13,37 +14,52 @@ const main = async () => {
   const { data } = await axios.get(`${url}/api/lol_accounts/next_region`, {
     headers: { admin_secret_production: secret }
   });
-  const { region } = data;
+  const { region, programRegion } = data;
   axios
     .post(
       `${url}/api/lol_accounts/combo.txt`,
       {
         region,
         min_level: 30,
-        count: 20
+        count: 5
       },
       { headers: { admin_secret_production: secret } }
     )
     .then(async response => {
       console.log('Combo Status', response.status);
       console.log('Combo Data', response.data);
-      const [, combos] = response.data.split('\n\n');
-      run(`${projectDir}/src/reaper/reaper.exe`);
-      fs.writeFileSync(`${projectDir}/src/reaper/combo.txt`, combos);
+      let [, combos] = response.data.split('\n\n');
+	  combos = combos || response.data;
+	  console.log('combos', combos);
+      run(`cd ${projectDir}/src/reaper && reaper.exe`);
+      fs.writeFileSync(`${projectDir}/src/reaper/combos.txt`, combos);
       await wait(2000);
-      run(`${projectDir}/src/reaper/ahk.exe ${projectDir}/src/reaper/reap.ahk`);
-      await wait(1000 * 60 * 5); // Wait 5 minutes
+      run(`cd ${projectDir}/src/reaper && ahk.exe reap.ahk ${programRegion}`);
+      await wait(10000); // Wait 10 secs
 
+      await run(`cd ${projectDir}/src/reaper && ahk.exe save_title.ahk`);  
       const winTitle = fs.readFileSync(`${projectDir}/src/reaper/window_title.txt`).toString();
-      console.log('Window Title', winTitle);
+	  
+	  const { total, bad, usernames } = getStatiscs(winTitle, combos);
+      console.log(`Total: ${total}, Bad: ${bad}, User Names: ${usernames}`);
+	  
+	  if (total === bad)
+        axios
+	      .put(`${url}/api/lol_accounts/ignore/${region}`, combos, { headers: { admin_secret_production: secret } })
+          .then(rPut => {
+            console.log('Update Status', rPut.status);
+            console.log('Update Data', rPut.data);
+          });
+
       const result = fs.readFileSync(`${projectDir}/src/reaper/hits/Capture.txt`).toString();
-      console.log(`Updating with: \`${result}\``);
-      axios
-        .put(`${url}/api/lol_accounts/update`, result, { headers: { admin_secret_production: secret } })
-        .then(rPut => {
-          console.log('Update Status', rPut.status);
-          console.log('Update Data', rPut.data);
-        });
+      console.log(`Updating if not empty with: \`${result}\``);
+      if (result)
+        axios
+          .put(`${url}/api/lol_accounts/update`, result, { headers: { admin_secret_production: secret } })
+          .then(rPut => {
+            console.log('Update Status', rPut.status);
+            console.log('Update Data', rPut.data);
+          });
     })
     .catch(error => {
       console.error(error);
