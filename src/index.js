@@ -29,27 +29,30 @@ const main = async () => {
       console.log('Combo Status', response.status);
       console.log('Combo Data', response.data);
       let [, combos] = response.data.split('\n\n');
-	  combos = combos || response.data;
-	  console.log('combos', combos);
+      combos = combos || response.data;
+      console.log('combos', combos);
       run(`cd ${projectDir}/src/reaper && reaper.exe`);
       fs.writeFileSync(`${projectDir}/src/reaper/combos.txt`, combos);
       await wait(2000);
       run(`cd ${projectDir}/src/reaper && ahk.exe reap.ahk ${programRegion}`);
       await wait(10000); // Wait 10 secs
 
-      await run(`cd ${projectDir}/src/reaper && ahk.exe save_title.ahk`);  
+      await run(`cd ${projectDir}/src/reaper && ahk.exe save_title.ahk`);
       const winTitle = fs.readFileSync(`${projectDir}/src/reaper/window_title.txt`).toString();
-	  
-	  const { total, bad, usernames } = getStatiscs(winTitle, combos);
+
+      const { total, bad, usernames } = getStatiscs(winTitle, combos);
       console.log(`Total: ${total}, Bad: ${bad}, User Names: ${usernames}`);
-	  
-	  if (total === bad)
+
+      if (total === bad)
         axios
-	      .put(`${url}/api/lol_accounts/ignore/${region}`, combos, { headers: { admin_secret_production: secret } })
+          .put(`${url}/api/lol_accounts/ignore/${region}`, combos, {
+            headers: { admin_secret_production: secret, 'Content-Type': 'text/plain' }
+          })
           .then(rPut => {
             console.log('Update Status', rPut.status);
             console.log('Update Data', rPut.data);
-          }).catch(console.error);
+          })
+          .catch(console.error);
 
       const result = fs.readFileSync(`${projectDir}/src/reaper/hits/Capture.txt`).toString();
       console.log(`Updating if not empty with: \`${result}\``);
