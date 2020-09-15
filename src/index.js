@@ -33,9 +33,9 @@ const main = async () => {
       console.log('combos', combos);
       run(`cd ${projectDir}/src/reaper && reaper.exe`);
       fs.writeFileSync(`${projectDir}/src/reaper/combos.txt`, combos);
-      await wait(2000);
+      await wait(1000);
       run(`cd ${projectDir}/src/reaper && ahk.exe reap.ahk ${programRegion}`);
-      await wait(10000); // Wait 10 secs
+      await wait(20000); // Wait 10 secs
 
       await run(`cd ${projectDir}/src/reaper && ahk.exe save_title.ahk`);
       const winTitle = fs.readFileSync(`${projectDir}/src/reaper/window_title.txt`).toString();
