@@ -21,7 +21,7 @@ const main = async () => {
       {
         region,
         min_level: 30,
-        count: 5
+        count: 7
       },
       { headers: { admin_secret_production: secret } }
     )
@@ -49,7 +49,7 @@ const main = async () => {
           .then(rPut => {
             console.log('Update Status', rPut.status);
             console.log('Update Data', rPut.data);
-          });
+          }).catch(console.error);
 
       const result = fs.readFileSync(`${projectDir}/src/reaper/hits/Capture.txt`).toString();
       console.log(`Updating if not empty with: \`${result}\``);
