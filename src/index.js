@@ -32,9 +32,10 @@ const main = async () => {
       let [, combos] = response.data.split('\n\n');
       combos = (combos || response.data || '').split('\n').filter(c => c);
       console.log(`Combos:\n${combos}`);
-	  run(`"${projectDir}/src/vpn_client/hsscp.exe"`);
-	  await wait(11000);
+	  // run(`"${projectDir}/src/vpn_client/hsscp.exe"`);
+	  // await wait(11000);
 
+      let finished = false;
       for (const combo of combos) {
         fs.writeFileSync(`${projectDir}/src/reaper/combos.txt`, combo);
         run(`cd ${projectDir}/src/reaper && reaper.exe`);
@@ -66,9 +67,14 @@ const main = async () => {
             .then(rPut => {
               console.log('Update Status', rPut.status);
               console.log('Update Data', JSON.stringify(rPut.data, null, 2).blue);
+			  if (finished) process.exit(0);
+            }).catch(error => {
+			  console.error(error);
+			  if (finished) process.exit(0);
             });
 		await run('taskkill /IM "._cache_reaper.exe" /F');
       }
+	  finished = true;
     })
     .catch(error => {
       console.error(error);
