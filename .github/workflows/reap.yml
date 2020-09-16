@@ -14,6 +14,15 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install dependences
       run: npm install axios colors path
+    - name: Connect VPN
+      uses: golfzaptw/action-connect-ovpn@master
+      id: connect_vpn
+      with:
+        PING_URL: '127.0.0.1'
+        FILE_OVPN: '.github/vpn/config.ovpn'
+        SECRET: ${{ secrets.VPN_SECRET }}
+    - name: Check Connect VPN
+      run: echo ${{ steps.connect_vpn.outputs.STATUS }}
     - name: Hello
       run: echo Hi! This is an automatic process.
     - name: Current branch
