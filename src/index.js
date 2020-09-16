@@ -84,6 +84,10 @@ const main = async () => {
               finishCount += 1;
               if (finished()) finish(0);
             });
+        else {
+          finishCount += 1;
+          if (finished()) finish(0);
+        }
         await run('taskkill /IM "._cache_reaper.exe" /F');
       }
     })
