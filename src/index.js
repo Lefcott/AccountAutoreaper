@@ -49,6 +49,11 @@ const main = async () => {
         const winTitle = fs.readFileSync(`${projectDir}/src/reaper/window_title.txt`).toString();
 
         console.log('Window Title: ', winTitle);
+        if (winTitle === '[LoLAccountRaper / Sulyvahn]') {
+          console.log('Retrying this combo');
+          i -= 1;
+          continue;
+        }
         const { total, hits, bad, retry, usernames } = getStatiscs(winTitle, combos);
         console.log(`Total: ${total}, Hits: ${hits}, Bad: ${bad}, Retry: ${retry}, User Names: ${usernames}`);
         if (total === bad) {
@@ -67,7 +72,7 @@ const main = async () => {
               finishCount += 1;
               if (finished()) finish(0);
             });
-          break;
+          continue;
         }
 
         const result = fs.readFileSync(`${projectDir}/src/reaper/hits/Capture.txt`).toString();
