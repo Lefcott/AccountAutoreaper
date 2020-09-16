@@ -16,8 +16,8 @@ jobs:
       run: npm install axios colors path
     - name: Hello
       run: echo "Hi! This is an automatic process."
-    - name: Current branch
-      run: git branch
+    - name: Connect to VPN
+      run: npm run connect-to-vpn
     - name: Git configuration
       run: |
         git config --global user.email "lefcott@hotmail.com"

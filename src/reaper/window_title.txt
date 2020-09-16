@@ -1,1 +1,1 @@
-LoLAccountRaper | [1/1] | Region : PBE1 | 0 Hits | 1 Bad | 0 Retry | CPM 6
+LoLAccountRaper | [0/1] | Region : LA1 | 0 Hits | 0 Bad | 2 Retry | CPM 0

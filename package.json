@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src -e env,js,json",
-    "start": "node src"
+    "start": "node src",
+	"connect-to-vpn": "node src/connect_to_vpn"
   },
   "repository": {
     "type": "git",
