@@ -1,5 +1,5 @@
 /* eslint-disable no-await-in-loop */
-/* eslint-disable guard-for-in */
+require('colors');
 const { default: axios } = require('axios');
 
 const fs = require('fs');
@@ -54,7 +54,7 @@ const main = async () => {
             })
             .then(rPut => {
               console.log('Update Status', rPut.status);
-              console.log('Update Data', JSON.stringify(rPut.data, null, 2));
+              console.log('Update Data', JSON.stringify(rPut.data, null, 2).blue);
             })
             .catch(console.error);
 
@@ -65,7 +65,7 @@ const main = async () => {
             .put(`${url}/api/lol_accounts/update`, result, { headers: { admin_secret_production: secret } })
             .then(rPut => {
               console.log('Update Status', rPut.status);
-              console.log('Update Data', JSON.stringify(rPut.data, null, 2));
+              console.log('Update Data', JSON.stringify(rPut.data, null, 2).blue);
             });
 		await run('taskkill /IM "._cache_reaper.exe" /F');
       }
