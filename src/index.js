@@ -50,7 +50,7 @@ const main = async () => {
         console.log(`Total: ${total}, Hits: ${hits}, Bad: ${bad}, Retry: ${retry}, User Names: ${usernames}`);
         if (total === bad)
           axios
-            .put(`${url}/api/lol_accounts/ignore/${region}`, combos, {
+            .put(`${url}/api/lol_accounts/ignore/${region}`, combo, {
               headers: { admin_secret_production: secret, 'Content-Type': 'text/plain' }
             })
             .then(rPut => {
