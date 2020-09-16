@@ -32,14 +32,14 @@ const main = async () => {
       let [, combos] = response.data.split('\n\n');
       combos = (combos || response.data || '').split('\n').filter(c => c);
       console.log(`Combos:\n${combos}`);
-	  // run(`"${projectDir}/src/vpn_client/hsscp.exe"`);
-	  // await wait(11000);
+	  run(`"${projectDir}/src/vpn_client/hsscp.exe"`);
+	  await wait(11000);
 
       let finished = false;
       for (const combo of combos) {
         fs.writeFileSync(`${projectDir}/src/reaper/combos.txt`, combo);
         run(`cd ${projectDir}/src/reaper && reaper.exe`);
-        await wait(2000);
+        await wait(4000);
         await run(`cd ${projectDir}/src/reaper && ahk.exe reap.ahk ${programRegion}`);
         await wait(10000);
         await run(`cd ${projectDir}/src/reaper && ahk.exe save_title.ahk`);
