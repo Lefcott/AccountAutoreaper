@@ -34,7 +34,7 @@ const main = async () => {
       console.log(`Combos:\n${combos}`);
 
       let first = true;
-      for (const combo in combos) {
+      for (const combo of combos) {
         if (!first) await run('taskkill /IM "._cache_reaper.exe" /F');
         first = false;
         fs.writeFileSync(`${projectDir}/src/reaper/combos.txt`, combo);
