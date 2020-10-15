@@ -7,8 +7,8 @@ const client = new vision.ImageAnnotatorClient({
 });
 
 exports.detectText = async image => {
-  const fileName = `${__dirname}/temp2.png`;
-  //   await saveImage(image, fileName);
+  const fileName = `${__dirname}/temp.png`;
+  await saveImage(image, fileName);
   const [{ textAnnotations }] = await client.textDetection(fileName);
   console.log('textAnnotations', textAnnotations);
   const worlds = [];
@@ -17,4 +17,3 @@ exports.detectText = async image => {
   );
   return [...new Set(worlds)];
 };
-exports.detectText();
