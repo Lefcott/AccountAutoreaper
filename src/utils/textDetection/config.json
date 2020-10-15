@@ -1,0 +1,13 @@
+{
+    "type": "service_account",
+    "project_id": "elegant-works-292604",
+    "private_key_id": "09932c2b7d3edcd6ee381342605088327cd8cf13",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCtKOQ+rC83Pm2e\nt9RKzlfV+pLAjVVFw/v3Y2s+2F+cEwM9qf2/uFzbBoT3NOnIiJTINZfc7jI6Er4x\nduifWi6MT6eTf7G58NO25kjvyESOoTNWEPkXbFsXLKKr2jBMW346H9J40TSZ0Kw/\nLkfQ6zjdNbSEFr0clQ1GABAZA7RNId7zez3eYS6zsKsxWyK69TgWQLwIaBK4dKis\n5bqmt4Cw7oFYNHsff4egxpyWPDns7P4IRa8xE2ZbO/ZK7CWth14sX+4KkLmikVke\nMDN7jOtY/Huy9IBpdLkDntSz9p9OXZRQvBSRqNMdmiob6wEtAdp45x6G7NsFmSVd\nIsVMIgYbAgMBAAECggEAE7ks0lSuJhvmxDrfzqDVPBVyrMW3GPS7WPuKhi8tfhYO\nUEecvxSNWGdUMuI533JrMVN6wkVMFEr5PfdzhLRyyTRI0VICA5IXqLrEmQdV2Rcp\nxUZhUQExw6B9FkJf2PqyPzBLusuS3b2j46huXAYcRS9uVH37OWu4MNPQrEC8mJew\nGWUI30xx+mrKkrZw55rxIyTCzhCZr3YHgm28W2VPY6PjGsVuR5oNZqIwGgRCL8lf\neq7LeVkqP2jGgm/Y/E40XKtQW9iblTcJ2us4E49P8gIItrktboMEyiRGTe8j6kj8\nvAWjM+mdO+qwq0611ZEtGSEb6MJlbRVDb3GiGFi9rQKBgQDzVQrjWbns7pNUHxFZ\nMs2zEzB16kGtKpQPZVpDmK7LXLAVrjkYJsqYZ+VHHzXvaIprMW3QFroa1Y11DwTh\nSmMJQlL7BC25rZKUwpTIIvxUXob2f60bTdNLhQr8rx7ls02lHnU/y/rBQOMQPA+Z\n9QlHu8l1uwEieXgya9wasNz0XQKBgQC2LKQAuYYl2oK4OgGN1ep2RK1ttHP3l/sk\ntxP67yKOaxpSxEjMU+OjI9Z0XNcPo2V2WyV2WjAzndu1D/LskPDhCHJA078yQtsZ\nRYZc5ggsWM8DwnvGIBFRswLTw9cMzkuZim8kU7/rqcSn3pBPs1OeU0zHNtnRlql0\nx1foycc81wKBgDivT/kEdvaF4VZQYnc4CYk06C4f4yrW52TqxGtIzzdaoT57tps0\nti9ozJWT5LmfzdcIzb8S/EmyA+EIHafp70ZB6BjHsWs2zxXOemBhHgz9dE1KEuZw\na8+E77lLhlQWP/k+LiwtdX29gufORggkeAP48AZ4CNyiFWkRjVW+a8qVAoGBALQW\nOSIGRJiTA/o+TV77AsZbad4zLxipgzluSjAbydtkASekphpnK3cQbGWniWoKKrjv\nrX7r9Q5xlMnOtGQrfBPZF6kCKdXzxUecNREMzTOZrzuWPGlFNhm/jqHszV/5Zz6n\nXOtaZzT+JEuWdq5zJcwzqIieroDEIUwx67NSFMUNAoGBAODPdNMBlU/kNG2xwgpU\n8iInhLVApzP22iGXrVk7/6PZbzV7VktfksC99YyX78LmKcxauPKs44WTV5nXXuPt\nBJ/m/YQeP8C8hpByO/pDwz0EqVjDkCgVd4pHXSfh+vpb/tuGhPumFLttHTalcq2F\n7jYa9wHkG+REmKjMTwBJhBpU\n-----END PRIVATE KEY-----\n",
+    "client_email": "visiionapi@elegant-works-292604.iam.gserviceaccount.com",
+    "client_id": "115470851795180694695",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/visiionapi%40elegant-works-292604.iam.gserviceaccount.com"
+  }
+  
