@@ -1,8 +1,4 @@
-const robot = require('robotjs');
+const fs = require('fs');
 
-const { saveImage } = require('./src/utils/image');
-
-const screen = robot.getScreenSize();
-const image = robot.screen.capture(screen.width - 350, 0, 350, 200);
-console.log(image);
-saveImage(image, 'screen.png');
+const image = fs.readFileSync(`${__dirname}/src/utils/textDetection/temp_level.png`).toString('base64');
+fs.writeFileSync(`${__dirname}/image.txt`, image);
