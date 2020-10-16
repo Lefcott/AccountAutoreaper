@@ -12,5 +12,8 @@ module.exports = async path =>
         { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
       )
       .then(response => resolve(response.data.data.link))
-      .catch(console.error);
+      .catch(error => {
+        console.error(error);
+        resolve(null);
+      });
   });
