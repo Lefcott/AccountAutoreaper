@@ -7,6 +7,7 @@ const { detectText } = require('../utils/textDetection');
 const { getWindowRect } = require('../utils/image');
 
 const { lolPath, scale, rects } = require('./constants');
+const { closeNotifications } = require('./utils');
 
 const screen = robotjs.getScreenSize();
 
@@ -51,6 +52,7 @@ console.log('Reaping!');
     console.log(`detected ${rect.id}s:`, texts);
     return texts[0];
   };
+  await closeNotifications(getX, getY);
   const level = await getNumberFromRect(rects.level);
   const rp = await getNumberFromRect(rects.rp);
   const blueEssence = await getNumberFromRect(rects.blueEssence);
