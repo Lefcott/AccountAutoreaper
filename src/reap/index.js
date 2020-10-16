@@ -1,6 +1,8 @@
 /* eslint-disable no-restricted-globals */
 const robotjs = require('robotjs');
 
+const { exec } = require('child_process');
+
 const { run } = require('../utils/scripts');
 const { wait } = require('../utils/wait');
 const { detectText } = require('../utils/textDetection');
@@ -13,8 +15,12 @@ const screen = robotjs.getScreenSize();
 
 console.log('Reaping!');
 (async () => {
+  exec('taskkill /F /im LeagueClient.exe');
+  exec('taskkill /F /im LeagueClientUx.exe');
+  exec('taskkill /F /im LeagueClientUxRender.exe');
+  await wait(3000);
   await run(lolPath);
-  await wait(5000);
+  await wait(6000);
 
   const user = 'lefcott20';
   const pass = 'widergy2020';
