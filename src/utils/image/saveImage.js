@@ -1,9 +1,6 @@
 const Jimp = require('jimp');
-const { default: axios } = require('axios');
 
-const fs = require('fs');
-
-exports.saveImage = (image, path) => {
+module.exports = (image, path) => {
   // Create a new blank image, same size as Robotjs' one
   const jimg = new Jimp(image.width, image.height);
   for (let x = 0; x < image.width; x += 1) {
@@ -19,16 +16,3 @@ exports.saveImage = (image, path) => {
   }
   jimg.write(path);
 };
-
-exports.uploadImage = async path =>
-  new Promise(resolve => {
-    const image = fs.readFileSync(path).toString('base64');
-    axios
-      .post(
-        'https://api.imgur.com/3/image',
-        { image },
-        { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
-      )
-      .then(response => resolve(response.data.data.link))
-      .catch(console.error);
-  });

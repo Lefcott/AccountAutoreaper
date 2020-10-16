@@ -23,6 +23,7 @@
     "@google-cloud/vision": "^2.1.2",
     "axios": "^0.20.0",
     "colors": "^1.4.0",
+    "dotenv": "^8.2.0",
     "jimp": "^0.16.1",
     "node-openvpn": "^0.1.1",
     "node-tesseract": "^0.2.7",
