@@ -1,1 +1,3 @@
-module.exports = require('path').join(__dirname, '../..');
+globalThis.projectDir = require('path').join(__dirname, '../..');
+
+module.exports = projectDir;

@@ -1,12 +1,8 @@
 /* eslint-disable no-restricted-globals */
 const robotjs = require('robotjs');
-
 const { exec } = require('child_process');
 
-const { run } = require('../utils/scripts');
-const { wait } = require('../utils/wait');
-const { detectText } = require('../utils/textDetection');
-const { getWindowRect } = require('../utils/image');
+require('../globals');
 
 const { lolPath, scale, rects } = require('./constants');
 const { closeNotifications } = require('./utils');
@@ -19,7 +15,7 @@ console.log('Reaping!');
   exec('taskkill /F /im LeagueClientUx.exe');
   exec('taskkill /F /im LeagueClientUxRender.exe');
   await wait(3000);
-  await run(lolPath);
+  await scripts.run(lolPath);
   await wait(6000);
 
   const user = 'lefcott20';
@@ -31,7 +27,7 @@ console.log('Reaping!');
   robotjs.keyTap('enter');
   await wait(25000);
   const screenCapture = robotjs.screen.capture(0, 0, screen.width, screen.height);
-  const windowRect = getWindowRect(screenCapture, 'ffffff', { bottom: 10 });
+  const windowRect = images.getWindowRect(screenCapture, 'ffffff', { bottom: 10 });
   const getX = x => windowRect.x + (windowRect.width / scale.width) * x;
   const getY = y => windowRect.y + (windowRect.height / scale.height) * y;
   const getWidth = w => (windowRect.width / scale.width) * w;
@@ -43,7 +39,7 @@ console.log('Reaping!');
       getWidth(rect.width),
       getHeight(rect.height)
     );
-    const texts = await detectText(image, rect.id);
+    const texts = await textDetection.detectText(image, rect.id);
     console.log(`detected ${rect.id}s:`, texts);
     return +texts.filter(text => !isNaN(text))[0] || null;
   };
@@ -54,7 +50,7 @@ console.log('Reaping!');
       getWidth(rect.width),
       getHeight(rect.height)
     );
-    const texts = await detectText(image, rect.id);
+    const texts = await textDetection.detectText(image, rect.id);
     console.log(`detected ${rect.id}s:`, texts);
     return texts[0];
   };

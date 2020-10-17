@@ -2,13 +2,12 @@
 require('colors');
 const { default: axios } = require('axios');
 
+require('./globals');
+
 const fs = require('fs');
 
-const { run } = require('./utils/scripts');
-const { wait } = require('./utils/wait');
 const { finish } = require('./utils/finish');
 const { getStatiscs } = require('./utils/statiscs');
-const projectDir = require('./utils/projectDir');
 
 const url = 'https://bloomebot-accounts-api.herokuapp.com';
 const secret = '5feb97b14331453fbbe2ba19bc97cc77446cef5f-ce74-4cc4-baee-033dca9c1831';
@@ -33,7 +32,7 @@ const main = async () => {
       let [, combos] = response.data.split('\n\n');
       combos = (combos || response.data || '').split('\n').filter(c => c);
       console.log(`Combos:\n${combos}`);
-      run(`"${projectDir}/src/vpn_client/hsscp.exe"`);
+      scripts.run(`"${projectDir}/src/vpn_client/hsscp.exe"`);
       await wait(11000);
 
       let finishCount = 0;
@@ -41,11 +40,11 @@ const main = async () => {
       for (let i = 0; i < combos.length; i += 1) {
         const combo = combos[i];
         fs.writeFileSync(`${projectDir}/src/reaper/combos.txt`, combo);
-        run(`cd ${projectDir}/src/reaper && reaper.exe`);
+        scripts.run(`cd ${projectDir}/src/reaper && reaper.exe`);
         await wait(4000);
-        await run(`cd ${projectDir}/src/reaper && ahk.exe reap.ahk ${programRegion}`);
+        await scripts.run(`cd ${projectDir}/src/reaper && ahk.exe reap.ahk ${programRegion}`);
         await wait(10000);
-        await run(`cd ${projectDir}/src/reaper && ahk.exe save_title.ahk`);
+        await scripts.run(`cd ${projectDir}/src/reaper && ahk.exe save_title.ahk`);
         const winTitle = fs.readFileSync(`${projectDir}/src/reaper/window_title.txt`).toString();
 
         console.log('Window Title: ', winTitle);
@@ -93,7 +92,7 @@ const main = async () => {
           finishCount += 1;
           if (finished()) finish(0);
         }
-        await run('taskkill /IM "._cache_reaper.exe" /F');
+        await scripts.run('taskkill /IM "._cache_reaper.exe" /F');
       }
     })
     .catch(error => {

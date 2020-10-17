@@ -1,6 +1,5 @@
 /* eslint-disable no-loop-func */
 /* eslint-disable no-await-in-loop */
-const fs = require('fs');
 const { exec } = require('child_process');
 require('colors');
 
@@ -27,7 +26,7 @@ const execOne = (command, wait) =>
     });
   });
 
-module.exports.run = async commands => {
+exports.run = async commands => {
   // Parallel commands
   if (!Array.isArray(commands)) commands = [commands];
   const promises = [];
@@ -36,7 +35,7 @@ module.exports.run = async commands => {
   return Promise.all(promises);
 };
 
-module.exports.runWait = async commands => {
+exports.runWait = async commands => {
   // Sequential commands
   if (!Array.isArray(commands)) commands = [commands];
   const results = [];
@@ -44,7 +43,7 @@ module.exports.runWait = async commands => {
   return results;
 };
 
-module.exports.runInterval = async (commands, interval) =>
+exports.runInterval = async (commands, interval) =>
   new Promise(resolve => {
     // Sequential commands
     if (!Array.isArray(commands)) commands = [commands];
@@ -61,26 +60,8 @@ module.exports.runInterval = async (commands, interval) =>
     }
   });
 
-module.exports.getOptions = () => {
-  const params = process.argv.slice(2);
-  const obj = { params: [] };
-  let currKey = '';
-  for (let k = 0; k < params.length; k += 1) {
-    if (params[k].startsWith(':::')) {
-      currKey = params[k].substring(3);
-      obj[currKey] = [];
-    } else if (params[k].startsWith('::')) {
-      if (params[k + 1] && !params[k + 1].startsWith('::')) {
-        obj[params[k].substring(2)] = params[k + 1];
-        k += 1;
-      } else {
-        obj[params[k].substring(2)] = true;
-      }
-    } else if (currKey) {
-      obj[currKey].push(params[k]);
-    } else {
-      obj.params.push(params[k]);
-    }
-  }
-  return obj;
+globalThis.scripts = {
+  run: exports.run,
+  runWait: exports.runWait,
+  runInterval: exports.runInterval
 };
