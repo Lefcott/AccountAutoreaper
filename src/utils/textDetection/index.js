@@ -8,7 +8,7 @@ const client = new vision.ImageAnnotatorClient({
 
 const detectText = (image, id) =>
   new Promise(async resolve => {
-    const fileName = images.saveImage(image, id, []);
+    const fileName = images.saveImage(image, id);
     await wait(1000);
     client
       .textDetection(fileName)
