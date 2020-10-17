@@ -1,6 +1,5 @@
 const vision = require('@google-cloud/vision');
 
-const { saveImage } = require('../images');
 const { wait } = require('../wait');
 
 const client = new vision.ImageAnnotatorClient({
@@ -9,8 +8,7 @@ const client = new vision.ImageAnnotatorClient({
 
 const detectText = (image, id) =>
   new Promise(async resolve => {
-    const fileName = `${__dirname}/temp_${id}.png`;
-    await saveImage(image, fileName);
+    const fileName = images.saveImage(image, id);
     await wait(1000);
     client
       .textDetection(fileName)

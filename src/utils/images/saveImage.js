@@ -1,6 +1,7 @@
 const Jimp = require('jimp');
 
-module.exports = (image, path) => {
+module.exports = (image, id) => {
+  const fileName = `${__dirname}/temp_${id}.png`;
   // Create a new blank image, same size as Robotjs' one
   const jimg = new Jimp(image.width, image.height);
   for (let x = 0; x < image.width; x += 1) {
@@ -14,5 +15,6 @@ module.exports = (image, path) => {
       jimg.setPixelColor(num, x, y);
     }
   }
-  jimg.write(path);
+  jimg.write(fileName);
+  return fileName;
 };
