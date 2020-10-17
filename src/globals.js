@@ -1,5 +1,5 @@
-const log = require('debug');
 require('./utils');
+const log = require('debug');
 
 globalThis.log = log('app');
 globalThis.logError = (...args) => {

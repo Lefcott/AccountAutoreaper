@@ -9,7 +9,7 @@ const { closeNotifications } = require('./utils');
 
 const screen = robotjs.getScreenSize();
 
-console.log('Reaping!');
+log('Reaping!');
 (async () => {
   exec('taskkill /F /im LeagueClient.exe');
   exec('taskkill /F /im LeagueClientUx.exe');
@@ -20,7 +20,7 @@ console.log('Reaping!');
 
   const user = 'lefcott20';
   const pass = 'widergy2020';
-  console.log('LOL Started');
+  log('LOL Started');
   robotjs.typeString(user);
   robotjs.keyTap('tab');
   robotjs.typeString(pass);
@@ -40,7 +40,7 @@ console.log('Reaping!');
       getHeight(rect.height)
     );
     const texts = await textDetection.detectText(image, rect.id);
-    console.log(`detected ${rect.id}s:`, texts);
+    log(`detected ${rect.id}s:`, texts);
     return +texts.filter(text => !isNaN(text))[0] || null;
   };
   const getTextFromRect = async rect => {
@@ -51,7 +51,7 @@ console.log('Reaping!');
       getHeight(rect.height)
     );
     const texts = await textDetection.detectText(image, rect.id);
-    console.log(`detected ${rect.id}s:`, texts);
+    log(`detected ${rect.id}s:`, texts);
     return texts[0];
   };
   await closeNotifications(getX, getY);
@@ -64,8 +64,8 @@ console.log('Reaping!');
   robotjs.moveMouse(getX(375), getY(600));
   await wait(1000);
   const elo = await getTextFromRect(rects.elo);
-  console.log('level', level);
-  console.log('rp', rp);
-  console.log('blueEssence', blueEssence);
-  console.log('elo', elo);
+  log('level', level);
+  log('rp', rp);
+  log('blueEssence', blueEssence);
+  log('elo', elo);
 })();
