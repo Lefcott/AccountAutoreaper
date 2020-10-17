@@ -1,3 +1,4 @@
+require('./env');
 require('./images');
 require('./textDetection');
 require('./finish');

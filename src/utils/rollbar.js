@@ -1,5 +1,4 @@
 const Rollbar = require('rollbar');
-const env = require('../env');
 
 globalThis.rollbar = new Rollbar({
   accessToken: env.ROLLBAR_ACCESS_TOKEN,
