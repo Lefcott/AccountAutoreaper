@@ -34,9 +34,12 @@ const execute = async () => {
     await logScreenInfo('No more accounts to reap');
     return next(300000);
   }
+  await logScreenInfo('Got accounts, setting language...');
   const langOk = setLanguage('en_US', account);
   if (!langOk) return next(60000);
+  await logScreenInfo('Language set OK, opening LOL...');
   await openLOL();
+  await logScreenInfo('LOL opened, defining utils functions...');
   const screenCapture = robotjs.screen.capture(0, 0, screen.width, screen.height);
   const windowRect = images.getWindowRect(screenCapture, 'ffffff', { bottom: 10 });
   const getX = x => windowRect.x + (windowRect.width / scale.width) * x;
@@ -66,46 +69,67 @@ const execute = async () => {
     return texts;
   };
 
+  await logScreenInfo('Typing credentials...');
   robotjs.typeString(account.UserName);
   robotjs.keyTap('tab');
   robotjs.typeString(account.NewPassword || account.Password);
   robotjs.keyTap('enter');
+  await logScreenInfo('Hitted enter, waiting 43 seconds...');
   await wait(43000);
+  await logScreenInfo('Closing warning...');
   await goTo(places.WARNING_TEXT, getX, getY);
   robotjs.typeString('I Agree');
   robotjs.keyTap('enter');
+  await logScreenInfo('Accepting terms and conditions...');
   robotjs.moveMouse(getX(848), getY(116));
   robotjs.mouseToggle('down', 'left');
   await wait(500);
   robotjs.moveMouse(getX(853), getY(464));
   await wait(500);
   robotjs.mouseToggle('up', 'left');
+  await logScreenInfo('Closed terms and conditions, accepting second terms...');
   await goTo(places.ACCEPT_TERMS, getX, getY, 8000);
+  await logScreenInfo('Accepted second terms, hitting PLAY...');
   await goTo(places.PLAY, getX, getY, 43000);
+  await logScreenInfo('CLosing dialog 1...');
   await goTo(places.CLOSE_DIALOG, getX, getY, 5000);
+  await logScreenInfo('Closing dialog 2...');
   await goTo(places.CLOSE_DIALOG_2, getX, getY);
+  await logScreenInfo('Tap code of conduct 1');
   await goTo(places.CODE_OF_CONDUCT_1, getX, getY);
+  await logScreenInfo('Tap code of conduct 2');
   await goTo(places.CODE_OF_CONDUCT_2, getX, getY);
+  await logScreenInfo('Tapp code of conduct 3');
   await goTo(places.CODE_OF_CONDUCT_3, getX, getY);
+  await logScreenInfo('Tap code of conduct 4');
   await goTo(places.CODE_OF_CONDUCT_4, getX, getY, 10000);
+  await logScreenInfo('Accept code of conduct');
   await goTo(places.ACCEPT_CODE_OF_CONDUCT, getX, getY);
+  await logScreenInfo('Select play mode');
   await goTo(places.SELECT_PLAY_MODE, getX, getY);
+  await logScreenInfo('Get banned text');
   const [bannedText] = await getTextFromRect(rects.banned);
   if (translates.isBanned(bannedText)) {
     await logScreenInfo(`Account ${account._id} is banned`);
     Account.update({ _id: account._id }, { $set: { 'LOL.Banned': true } });
     return next();
   }
+  await logScreenInfo('Account is not banned, closing notifications');
   await closeNotifications(getX, getY);
+  await logScreenInfo('Get level, rp and blue essence');
   const level = await getNumberFromRect(rects.level);
   const rp = await getNumberFromRect(rects.rp);
   const blueEssence = await getNumberFromRect(rects.blueEssence);
+  await logScreenInfo('Go to PROFILE');
   await goTo(places.PROFILE, getX, getY);
+  await logScreenInfo('Go to PROFILE_ELO');
   await goTo(places.PROFILE_ELO, getX, getY);
+  await logScreenInfo('Get elo');
   const [elo] = await getTextFromRect(rects.elo);
   await logScreenInfo('level:', level, 'rp:', rp, 'blueEssence:', blueEssence, 'elo:', elo);
   const captureRect = [getX(0), getY(0), getWidth(scale.width), getHeight(scale.height)];
   let captures = [];
+  await logScreenInfo('Capture profile_screen');
   captures.push(
     await images.uploadImage(
       robotjs.screen.capture(...captureRect),
@@ -113,26 +137,37 @@ const execute = async () => {
       [...hideRects, { x: 54, y: 141, width: 200, height: 40 }] // default hides + username in this screen
     )
   );
+  await logScreenInfo('Go to match history');
   await goTo(places.PROFILE_MATCH_HISTORY, getX, getY, 5000);
+  await logScreenInfo('Get last play');
   const lastPlayTexts = await getTextFromRect(rects.lastPlay);
   const lastPlay = lastPlayTexts.length === 2 ? getDate(lastPlayTexts) : null;
   await logScreenInfo('lastPlay', lastPlay);
+  await logScreenInfo('Go to COLLECTION');
   await goTo(places.COLLECTION, getX, getY);
+  await logScreenInfo('Capture collection_screen');
   captures.push(
     await images.uploadImage(robotjs.screen.capture(...captureRect), 'collection_screen', hideRects)
   );
+  await logScreenInfo('Go to SHOP');
   await goTo(places.SHOP, getX, getY, 6000);
+  await logScreenInfo('Go to SHOP_ACCOUNT');
   await goTo(places.SHOP_ACCOUNT, getX, getY);
+  await logScreenInfo('Go to SHOP_ACCOUNT_HISTORY');
   await goTo(places.SHOP_ACCOUNT_HISTORY, getX, getY);
+  await logScreenInfo('Capture shop_account_history');
   captures.push(
     await images.uploadImage(robotjs.screen.capture(...captureRect), 'shop_history_screen', hideRects)
   );
+  await logScreenInfo('Get refunds');
   const refunds = await getNumberFromRect(rects.refunds);
   await logScreenInfo('refunds', refunds);
+  await logScreenInfo('Go to LOOT');
   await goTo(places.LOOT, getX, getY, 5000);
+  await logScreenInfo('Capture loot_screen');
   captures.push(await images.uploadImage(robotjs.screen.capture(...captureRect), 'loot_screen', hideRects));
-  await logScreenInfo('captures', captures);
   captures = captures.filter(c => c);
+  await logScreenInfo('captures', captures);
 
   const data = {
     'LOL.Banned': false,
