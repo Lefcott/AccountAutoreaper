@@ -8,6 +8,7 @@ module.exports = (text, x = 5, y = 5) =>
     const font = await Jimp.loadFont(Jimp.FONT_SANS_16_BLACK);
     image.print(font, x, y, text).write('wallpaper.png', async () => {
       await wallpaper.set('wallpaper.png');
+      await wait(800);
       resolve();
     });
   });
