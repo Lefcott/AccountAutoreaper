@@ -6,7 +6,7 @@ require('../globals');
 const { scale, rects, hideRects } = require('./constants');
 const { places, translates, getElo } = require('./constants');
 const { openLOL, closeNotifications, goTo } = require('./utils');
-const { getDate, setLanguage } = require('./utils');
+const { getDate, setLanguage, logScreenInfo, logScreenError } = require('./utils');
 
 const screen = robotjs.getScreenSize();
 
@@ -14,6 +14,7 @@ log('Reaping!');
 const execute = async () => {
   const next = (time = 1000) => setTimeout(execute, time);
 
+  await logScreenInfo('Searching accounts...');
   const accounts = await Account.get(
     {
       'LOL.Region': { $exists: true },
@@ -23,12 +24,12 @@ const execute = async () => {
     { limit: 1 }
   );
   if (!accounts) {
-    logError('Failed to get accounts for reaping');
+    logScreenError('Failed to get accounts for reaping');
     return next(10000);
   }
   const [account] = accounts;
   if (!account) {
-    log('No more accounts to reap, waiting 5 minutes...');
+    logScreenInfo('No more accounts to reap, waiting 5 minutes...');
     return next(300000);
   }
   const langOk = setLanguage('en_US', account);

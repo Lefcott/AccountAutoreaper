@@ -3,7 +3,6 @@ const robotjs = require('robotjs');
 const fs = require('fs');
 const { exec } = require('child_process');
 
-const { wait } = require('../utils/wait');
 const { lolPath, lolConfigPath, REGION_MAPPING } = require('./constants');
 
 exports.openLOL = async () => {
@@ -58,4 +57,17 @@ exports.setLanguage = (lang, account) => {
     logError(e);
     return false;
   }
+};
+
+const getHour = () => {
+  const date = new Date();
+  return `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+};
+exports.logScreenInfo = (...args) => {
+  log(...args);
+  images.setWallpaperText(`${getHour()}: ${args.join(' ')}`);
+};
+exports.logScreenError = (...args) => {
+  logError(...args);
+  images.setWallpaperText(`${getHour()}: Error: ${args.join(' ')}`);
 };
