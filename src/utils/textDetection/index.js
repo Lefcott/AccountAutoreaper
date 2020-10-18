@@ -8,12 +8,10 @@ const client = new vision.ImageAnnotatorClient({
 
 const detectText = (image, id) =>
   new Promise(async resolve => {
-    const fileName = images.saveImage(image, id);
-    await wait(1000);
+    const fileName = await images.saveImage(image, id);
     client
       .textDetection(fileName)
       .then(([{ textAnnotations }]) => {
-        log('textAnnotations', textAnnotations);
         const worlds = [];
         textAnnotations.forEach(textAnnotation =>
           worlds.push(...textAnnotation.description.split('\n').filter(t => t))

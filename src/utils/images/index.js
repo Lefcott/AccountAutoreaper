@@ -1,5 +1,5 @@
-globalThis.images = {
-  getWindowRect: require('./getWindowRect'),
-  saveImage: require('./saveImage'),
-  uploadImage: require('./uploadImage')
-};
+globalThis.images = {};
+
+globalThis.images.getWindowRect = require('./getWindowRect');
+globalThis.images.saveImage = require('./saveImage');
+globalThis.images.uploadImage = require('./uploadImage');

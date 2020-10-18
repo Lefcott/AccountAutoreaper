@@ -1,5 +1,6 @@
 const { default: axios } = require('axios');
 
+const qs = require('qs');
 const fs = require('fs');
 
 const auths = ['Client-ID 2a49d60e8b3f4ac', 'Client-ID 4a318f507bec1f2'];
@@ -12,18 +13,28 @@ const getAuth = () => {
   return auth;
 };
 
-module.exports = async path =>
-  new Promise(resolve => {
-    const image = fs.readFileSync(path).toString('base64');
-    axios
-      .post(
-        'https://api.imgur.com/3/image',
-        { image },
-        { headers: { 'Content-Type': 'application/x-www-form-urlencoded', Authorization: getAuth() } }
-      )
+/** @param {import('robotjs').Bitmap} image @param {string} id
+    @param {import('./saveImage').HideRect[]} hideRects */
+module.exports = async (image, id, hideRects) =>
+  new Promise(async resolve => {
+    const fileName = await images.saveImage(image, id, hideRects);
+    const base64Image = fs.readFileSync(fileName).toString('base64');
+
+    axios({
+      method: 'post',
+      url: 'https://api.imgur.com/3/image',
+      data: qs.stringify({ image: base64Image }),
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+        authorization: getAuth()
+      }
+    })
       .then(response => resolve(response.data.data.link))
       .catch(error => {
-        console.error(error);
+        logError('There was an error uploading image');
         resolve(null);
+        if (!error.response) return;
+        if (typeof error.response.data.error === 'string') delete error.response.data.error;
+        logError(`Upload error status: ${error.response.status}\nBody: ${error.response.data}`);
       });
   });

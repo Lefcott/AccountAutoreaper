@@ -9,3 +9,4 @@ globalThis.rollbar = new Rollbar({
   itemsPerMinute: 500,
   maxItems: 500000
 });
+module.exports = rollbar;

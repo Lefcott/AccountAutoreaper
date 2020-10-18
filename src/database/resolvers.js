@@ -100,7 +100,7 @@ const insertOrUpdate = Model => (where, obj) =>
     });
   });
 
-export const getResolvers = Model => ({
+exports.getResolvers = Model => ({
   save: save(Model),
   get: get(Model),
   count: count(Model),

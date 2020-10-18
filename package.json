@@ -26,9 +26,12 @@
     "desktop-screenshot": "^0.1.1",
     "dotenv": "^8.2.0",
     "jimp": "^0.16.1",
+    "moment": "^2.29.1",
+    "mongoose": "^5.10.9",
     "mongoose-lean-defaults": "^0.4.1",
     "node-openvpn": "^0.1.1",
     "node-tesseract": "^0.2.7",
+    "qs": "^6.9.4",
     "robotjs": "^0.6.0",
     "rollbar": "^2.19.4"
   },

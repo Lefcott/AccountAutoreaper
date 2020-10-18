@@ -1,5 +1,4 @@
-import { getResolvers } from '../resolvers';
-
-import { account } from './account';
+const { getResolvers } = require('../resolvers');
+const { account } = require('./account');
 
 globalThis.Account = getResolvers(account);

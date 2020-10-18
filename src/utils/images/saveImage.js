@@ -4,17 +4,17 @@ const Jimp = require('jimp');
 
 /** @param {import('robotjs').Bitmap} image @param {string} id
     @param {HideRect[]} hideRects */
-module.exports = (image, id, hideRects = []) => {
-  const fileName = `${__dirname}/temp_${id}.png`;
-  const jimg = new Jimp(image.width, image.height);
+module.exports = (image, id, hideRects = []) =>
+  new Promise(resolve => {
+    const fileName = `${__dirname}/temp_${id}.png`;
+    const jimg = new Jimp(image.width, image.height);
 
-  jimg.bitmap.data = image.image;
-  hideRects.forEach(hideRect => {
-    const overlay = new Jimp(hideRect.width, hideRect.height);
-    overlay.bitmap.data = [];
-    jimg.composite(overlay, hideRect.x, hideRect.y);
+    jimg.bitmap.data = image.image;
+    hideRects.forEach(hideRect => {
+      const overlay = new Jimp(hideRect.width, hideRect.height);
+      overlay.bitmap.data = [];
+      jimg.composite(overlay, hideRect.x, hideRect.y);
+    });
+
+    jimg.write(fileName, () => resolve(fileName));
   });
-
-  jimg.write(fileName);
-  return fileName;
-};
