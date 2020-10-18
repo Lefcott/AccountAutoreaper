@@ -40,10 +40,14 @@ const translates = {
   isBanned: text => /permanently|banned/i.test(text),
   elo: {
     getUnranked: text => /unranked/i.test(text) && 'unranked',
+    getIron: text => /iron/i.test(text) && 'iron',
+    getBronze: text => /bronze/i.test(text) && 'bronze',
+    getSliver: text => /sliver/i.test(text) && 'sliver',
     getGold: text => /gold/i.test(text) && 'gold',
     getPlatinum: text => /platinum/i.test(text) && 'platinum',
     getDiamond: text => /diamond/i.test(text) && 'diamond',
     getMaster: text => /master/i.test(text) && 'master',
+    getGrandMaster: text => /grand|grandmaster|grand master/i.test(text) && 'grandMaster',
     getChallenger: text => /challenger/i.test(text) && 'challenger'
   }
 };
@@ -52,10 +56,14 @@ exports.translates = translates;
 exports.getElo = text => {
   const elo =
     translates.elo.getUnranked(text) ||
+    translates.elo.getIron(text) ||
+    translates.elo.getBronze(text) ||
+    translates.elo.getSliver(text) ||
     translates.elo.getGold(text) ||
     translates.elo.getPlatinum(text) ||
     translates.elo.getDiamond(text) ||
     translates.elo.getMaster(text) ||
+    translates.elo.getGrandMaster(text) ||
     translates.elo.getChallenger(text);
   if (!elo) rollbar.warn(`Elo could not find a map for value ${text}`);
   return elo || text;
