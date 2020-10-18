@@ -143,6 +143,8 @@ const execute = async () => {
   );
   await logScreenInfo('Go to match history');
   await goTo(places.PROFILE_MATCH_HISTORY, getX, getY, 5000);
+  await logScreenInfo('Accept general dialog');
+  await goTo(places.ACCEPT_GENERAL_DIALOG, getX, getY);
   await logScreenInfo('Get last play');
   const lastPlayTexts = await getTextFromRect(rects.lastPlay);
   const lastPlay = lastPlayTexts.length === 2 ? getDate(lastPlayTexts) : null;

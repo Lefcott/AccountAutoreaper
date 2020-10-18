@@ -32,6 +32,7 @@ exports.places = {
   PROFILE: { x: 710, y: 45 },
   PROFILE_ELO: { x: 375, y: 600 },
   PROFILE_MATCH_HISTORY: { x: 190, y: 100 },
+  ACCEPT_GENERAL_DIALOG: { x: 640, y: 400 },
   COLLECTION: { x: 765, y: 45 },
   SHOP: { x: 925, y: 45 },
   SHOP_ACCOUNT: { x: 1011, y: 105 },
