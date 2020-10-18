@@ -10,9 +10,11 @@ const { getDate, setLanguage, logScreenInfo, logScreenError } = require('./utils
 
 const screen = robotjs.getScreenSize();
 
-log('Reaping!');
 const execute = async () => {
-  const next = (time = 1000) => setTimeout(execute, time);
+  const next = async (time = 1000) => {
+    await logScreenInfo(`Waiting ${time / 1000} seconds...`);
+    setTimeout(execute, time);
+  };
 
   await logScreenInfo('Searching accounts...');
   const accounts = await Account.get(
@@ -24,12 +26,12 @@ const execute = async () => {
     { limit: 1 }
   );
   if (!accounts) {
-    logScreenError('Failed to get accounts for reaping');
+    await logScreenError('Failed to get accounts for reaping');
     return next(10000);
   }
   const [account] = accounts;
   if (!account) {
-    logScreenInfo('No more accounts to reap, waiting 5 minutes...');
+    await logScreenInfo('No more accounts to reap');
     return next(300000);
   }
   const langOk = setLanguage('en_US', account);
@@ -49,7 +51,7 @@ const execute = async () => {
       getHeight(rect.height)
     );
     const texts = await textDetection.detectText(image, rect.id);
-    log(`detected ${rect.id}s:`, texts);
+    await logScreenInfo(`detected ${rect.id}s:`, texts);
     return +texts.filter(text => !isNaN(text))[0] || null;
   };
   const getTextFromRect = async rect => {
@@ -60,7 +62,7 @@ const execute = async () => {
       getHeight(rect.height)
     );
     const texts = await textDetection.detectText(image, rect.id);
-    log(`detected ${rect.id}s:`, texts);
+    await logScreenInfo(`detected ${rect.id}s:`, texts);
     return texts;
   };
 
@@ -90,7 +92,7 @@ const execute = async () => {
   await goTo(places.SELECT_PLAY_MODE, getX, getY);
   const [bannedText] = await getTextFromRect(rects.banned);
   if (translates.isBanned(bannedText)) {
-    log(`Account ${account._id} is banned`);
+    await logScreenInfo(`Account ${account._id} is banned`);
     Account.update({ _id: account._id }, { $set: { 'LOL.Banned': true } });
     return next();
   }
@@ -101,10 +103,7 @@ const execute = async () => {
   await goTo(places.PROFILE, getX, getY);
   await goTo(places.PROFILE_ELO, getX, getY);
   const [elo] = await getTextFromRect(rects.elo);
-  log('level', level);
-  log('rp', rp);
-  log('blueEssence', blueEssence);
-  log('elo', elo);
+  await logScreenInfo('level:', level, 'rp:', rp, 'blueEssence:', blueEssence, 'elo:', elo);
   const captureRect = [getX(0), getY(0), getWidth(scale.width), getHeight(scale.height)];
   let captures = [];
   captures.push(
@@ -117,7 +116,7 @@ const execute = async () => {
   await goTo(places.PROFILE_MATCH_HISTORY, getX, getY, 5000);
   const lastPlayTexts = await getTextFromRect(rects.lastPlay);
   const lastPlay = lastPlayTexts.length === 2 ? getDate(lastPlayTexts) : null;
-  log('lastPlay', lastPlay);
+  await logScreenInfo('lastPlay', lastPlay);
   await goTo(places.COLLECTION, getX, getY);
   captures.push(
     await images.uploadImage(robotjs.screen.capture(...captureRect), 'collection_screen', hideRects)
@@ -129,10 +128,10 @@ const execute = async () => {
     await images.uploadImage(robotjs.screen.capture(...captureRect), 'shop_history_screen', hideRects)
   );
   const refunds = await getNumberFromRect(rects.refunds);
-  log('refunds', refunds);
+  await logScreenInfo('refunds', refunds);
   await goTo(places.LOOT, getX, getY, 5000);
   captures.push(await images.uploadImage(robotjs.screen.capture(...captureRect), 'loot_screen', hideRects));
-  log('captures', captures);
+  await logScreenInfo('captures', captures);
   captures = captures.filter(c => c);
 
   const data = {
@@ -145,10 +144,10 @@ const execute = async () => {
     'LOL.Images': captures,
     'LOL.LastPlay': lastPlay
   };
-  log('Updating with data', data);
+  await logScreenInfo(`Updating with data ${JSON.stringify(data)}`);
   const updated = await Account.update({ _id: account._id }, { $set: data });
   if (!updated)
-    logError(`Account with id ${account._id} not updated with data:\n${JSON.stringify(data, null, 2)}`);
+    await logScreenError(`Account with id ${account._id} not updated with data:\n${JSON.stringify(data)}`);
   next();
 };
 
