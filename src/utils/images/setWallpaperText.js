@@ -1,7 +1,7 @@
 const Jimp = require('jimp');
 const wallpaper = require('wallpaper');
 
-exports.setWallpaperText = (text, x = 5, y = 5) =>
+module.exports = setWallpaperText = (text, x = 5, y = 5) =>
   new Promise(async resolve => {
     const image = await Jimp.read(`${__dirname}/wallpaper_base.png`);
     const font = await Jimp.loadFont(Jimp.FONT_SANS_16_BLACK);
