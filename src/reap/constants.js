@@ -20,6 +20,7 @@ exports.places = {
   ACCEPT_TERMS: { x: 553, y: 605 },
   PLAY: { x: 600, y: 345 },
   CLOSE_DIALOG: { x: 1078, y: 57 },
+  CLOSE_DIALOG_1_5: { x: 1028, y: 130 },
   CLOSE_DIALOG_2: { x: 640, y: 418 },
   CODE_OF_CONDUCT_1: { x: 965, y: 207 },
   CODE_OF_CONDUCT_2: { x: 965, y: 320 },

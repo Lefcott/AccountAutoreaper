@@ -93,6 +93,8 @@ const execute = async () => {
   await goTo(places.PLAY, getX, getY, 43000);
   await logScreenInfo('CLosing dialog 1...');
   await goTo(places.CLOSE_DIALOG, getX, getY, 5000);
+  await logScreenInfo('CLosing dialog 1_5...');
+  await goTo(places.CLOSE_DIALOG_1_5, getX, getY);
   await logScreenInfo('Closing dialog 2...');
   await goTo(places.CLOSE_DIALOG_2, getX, getY);
   await logScreenInfo('Tap code of conduct 1');
