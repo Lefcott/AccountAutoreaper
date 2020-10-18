@@ -1,30 +1,22 @@
 /* eslint-disable no-restricted-globals */
 const robotjs = require('robotjs');
-const { exec } = require('child_process');
 
 require('../globals');
 
-const { lolPath, scale, rects, hideRects } = require('./constants');
-const { places, eloMepping } = require('./constants');
-const { closeNotifications, goTo, getDate } = require('./utils');
+const { scale, rects, hideRects } = require('./constants');
+const { places, translates, getElo } = require('./constants');
+const { openLOL, closeNotifications, goTo } = require('./utils');
+const { getDate, setLanguage } = require('./utils');
 
 const screen = robotjs.getScreenSize();
 
 log('Reaping!');
 const execute = async () => {
   const next = (time = 1000) => setTimeout(execute, time);
-  exec('taskkill /F /im LeagueClient.exe');
-  exec('taskkill /F /im LeagueClientUx.exe');
-  exec('taskkill /F /im LeagueClientUxRender.exe');
-  exec('taskkill /F /im RiotClientServices.exe');
-  exec('taskkill /F /im RiotClientUx.exe');
-  exec('taskkill /F /im RiotClientUxRender.exe');
-  await wait(3000);
-  await scripts.run(lolPath);
-  await wait(7500);
 
   const accounts = await Account.get(
     {
+      'LOL.Region': { $exists: true },
       'LOL.Banned': { $exists: false },
       $or: [{ NewPassword: { $exists: true } }, { EmailVerified: true }]
     },
@@ -36,10 +28,12 @@ const execute = async () => {
   }
   const [account] = accounts;
   if (!account) {
-    log('No more users to reap, waiting 5 minutes...');
+    log('No more accounts to reap, waiting 5 minutes...');
     return next(300000);
   }
-  log('LOL Started');
+  const langOk = setLanguage('en_US', account);
+  if (!langOk) return next(60000);
+  await openLOL();
   const screenCapture = robotjs.screen.capture(0, 0, screen.width, screen.height);
   const windowRect = images.getWindowRect(screenCapture, 'ffffff', { bottom: 10 });
   const getX = x => windowRect.x + (windowRect.width / scale.width) * x;
@@ -74,6 +68,9 @@ const execute = async () => {
   robotjs.typeString(account.NewPassword || account.Password);
   robotjs.keyTap('enter');
   await wait(43000);
+  await goTo(places.WARNING_TEXT, getX, getY);
+  robotjs.typeString('I Agree');
+  robotjs.keyTap('enter');
   robotjs.moveMouse(getX(848), getY(116));
   robotjs.mouseToggle('down', 'left');
   await wait(500);
@@ -83,13 +80,15 @@ const execute = async () => {
   await goTo(places.ACCEPT_TERMS, getX, getY, 8000);
   await goTo(places.PLAY, getX, getY, 43000);
   await goTo(places.CLOSE_DIALOG, getX, getY, 5000);
+  await goTo(places.CLOSE_DIALOG_2, getX, getY);
   await goTo(places.CODE_OF_CONDUCT_1, getX, getY);
   await goTo(places.CODE_OF_CONDUCT_2, getX, getY);
   await goTo(places.CODE_OF_CONDUCT_3, getX, getY);
-  await goTo(places.CODE_OF_CONDUCT_4, getX, getY);
+  await goTo(places.CODE_OF_CONDUCT_4, getX, getY, 10000);
   await goTo(places.ACCEPT_CODE_OF_CONDUCT, getX, getY);
+  await goTo(places.SELECT_PLAY_MODE, getX, getY);
   const [bannedText] = await getTextFromRect(rects.banned);
-  if (bannedText === 'PERMANENTLY BANNED') {
+  if (translates.isBanned(bannedText)) {
     log(`Account ${account._id} is banned`);
     Account.update({ _id: account._id }, { $set: { 'LOL.Banned': true } });
     return next();
@@ -138,13 +137,14 @@ const execute = async () => {
   const data = {
     'LOL.Banned': false,
     'LOL.Level': level,
-    'LOL.Elo': eloMepping[elo] || elo,
+    'LOL.Elo': getElo(elo),
     'LOL.RP': rp || 0,
     'LOL.BlueEssence': blueEssence || 0,
     'LOL.Refunds': refunds || 0,
     'LOL.Images': captures,
     'LOL.LastPlay': lastPlay
   };
+  log('Updating with data', data);
   const updated = await Account.update({ _id: account._id }, { $set: data });
   if (!updated)
     logError(`Account with id ${account._id} not updated with data:\n${JSON.stringify(data, null, 2)}`);

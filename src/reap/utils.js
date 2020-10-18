@@ -1,8 +1,23 @@
 /* eslint-disable no-await-in-loop */
 const robotjs = require('robotjs');
-const moment = require('moment');
+const fs = require('fs');
+const { exec } = require('child_process');
 
 const { wait } = require('../utils/wait');
+const { lolPath, lolConfigPath, REGION_MAPPING } = require('./constants');
+
+exports.openLOL = async () => {
+  exec('taskkill /F /im LeagueClient.exe');
+  exec('taskkill /F /im LeagueClientUx.exe');
+  exec('taskkill /F /im LeagueClientUxRender.exe');
+  exec('taskkill /F /im RiotClientServices.exe');
+  exec('taskkill /F /im RiotClientUx.exe');
+  exec('taskkill /F /im RiotClientUxRender.exe');
+  await wait(3000);
+  await scripts.run(lolPath);
+  await wait(7500);
+  log('LOL Started');
+};
 
 exports.closeNotifications = async (getX, getY) => {
   for (let i = 0; i < 5; i += 1) {
@@ -24,4 +39,23 @@ exports.getDate = ([strTime, strDate]) => {
   const [day, month, year] = strDate.split('/');
   const date = new Date(year, month - 1, day, hours, minutes);
   return date.toString() === 'Invalid Date' ? null : date;
+};
+
+/** @param {string} lang @param {object} account  */
+exports.setLanguage = (lang, account) => {
+  try {
+    const region = REGION_MAPPING[account.LOL.Region];
+    if (!region) {
+      logError(`Could not map region for account ${account._id} with region ${account.LOL.Region}`);
+      return false;
+    }
+    let config = fs.readFileSync(lolConfigPath).toString();
+    config = config.replace(/ {8}locale: .+\n?/, `        locale: "${lang}"`);
+    config = config.replace(/ {8}region: .+\n?/, `        region: "${region}"`);
+    fs.writeFileSync(lolConfigPath, config);
+    return true;
+  } catch (e) {
+    logError(e);
+    return false;
+  }
 };
