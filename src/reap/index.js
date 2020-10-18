@@ -105,8 +105,10 @@ const execute = async () => {
   await goTo(places.CODE_OF_CONDUCT_4, getX, getY, 10000);
   await logScreenInfo('Accept code of conduct');
   await goTo(places.ACCEPT_CODE_OF_CONDUCT, getX, getY);
-  await logScreenInfo('Select play mode');
-  await goTo(places.SELECT_PLAY_MODE, getX, getY);
+  await logScreenInfo('Select play mode and wait 8 seconds');
+  await goTo(places.SELECT_PLAY_MODE, getX, getY, 8000);
+  await logScreenInfo('Skip video');
+  await goTo(places.SKIP_VIDEO, getX, getY);
   await logScreenInfo('Get banned text');
   const [bannedText] = await getTextFromRect(rects.banned);
   if (translates.isBanned(bannedText)) {

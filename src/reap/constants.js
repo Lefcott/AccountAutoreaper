@@ -27,6 +27,7 @@ exports.places = {
   CODE_OF_CONDUCT_4: { x: 965, y: 540 },
   ACCEPT_CODE_OF_CONDUCT: { x: 643, y: 666 },
   SELECT_PLAY_MODE: { x: 670, y: 370 },
+  SKIP_VIDEO: { x: 643, y: 665 },
   PROFILE: { x: 684, y: 45 },
   PROFILE_ELO: { x: 375, y: 600 },
   PROFILE_MATCH_HISTORY: { x: 190, y: 100 },
