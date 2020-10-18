@@ -5,6 +5,7 @@ exports.eloMepping = {
 };
 exports.scale = { width: 1280, height: 720 };
 exports.rects = {
+  banned: { x: 390, y: 94, width: 515, height: 52, id: 'banned' },
   level: { x: 1070, y: 50, width: 50, height: 25, id: 'level' },
   rp: { x: 975, y: 12, width: 85, height: 35, id: 'rp' },
   blueEssence: { x: 975, y: 40, width: 85, height: 26, id: 'blue_essence' },
@@ -18,6 +19,14 @@ exports.hideRects = [
   { x: 1055, y: 82, width: 224, height: 607 } // Hides chat panel
 ];
 exports.places = {
+  ACCEPT_TERMS: { x: 553, y: 605 },
+  PLAY: { x: 600, y: 345 },
+  CLOSE_DIALOG: { x: 1078, y: 57 },
+  CODE_OF_CONDUCT_1: { x: 965, y: 207 },
+  CODE_OF_CONDUCT_2: { x: 965, y: 320 },
+  CODE_OF_CONDUCT_3: { x: 965, y: 430 },
+  CODE_OF_CONDUCT_4: { x: 965, y: 540 },
+  ACCEPT_CODE_OF_CONDUCT: { x: 643, y: 666 },
   PROFILE: { x: 684, y: 45 },
   PROFILE_ELO: { x: 375, y: 600 },
   PROFILE_MATCH_HISTORY: { x: 190, y: 100 },

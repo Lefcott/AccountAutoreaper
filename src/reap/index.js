@@ -12,7 +12,7 @@ const screen = robotjs.getScreenSize();
 
 log('Reaping!');
 const execute = async () => {
-  const next = () => setTimeout(execute, 3600000); // TODO set correct time
+  const next = (time = 1000) => setTimeout(execute, time);
   exec('taskkill /F /im LeagueClient.exe');
   exec('taskkill /F /im LeagueClientUx.exe');
   exec('taskkill /F /im LeagueClientUxRender.exe');
@@ -25,28 +25,21 @@ const execute = async () => {
 
   const accounts = await Account.get(
     {
-      'LOL.RP': { $exists: false },
+      'LOL.Banned': { $exists: false },
       $or: [{ NewPassword: { $exists: true } }, { EmailVerified: true }]
     },
     { limit: 1 }
   );
   if (!accounts) {
     logError('Failed to get accounts for reaping');
-    return next();
+    return next(10000);
   }
   const [account] = accounts;
   if (!account) {
-    log('No more users to reap, waiting...');
-    return next();
+    log('No more users to reap, waiting 5 minutes...');
+    return next(300000);
   }
   log('LOL Started');
-  robotjs.typeString(account.UserName);
-  robotjs.keyTap('tab');
-  robotjs.typeString(account.NewPassword || account.Password);
-  robotjs.keyTap('enter');
-  await wait(43000);
-  robotjs.moveMouse(screen.width / 2, screen.height / 2);
-  robotjs.scrollMouse(0, 50); // TODO make this work
   const screenCapture = robotjs.screen.capture(0, 0, screen.width, screen.height);
   const windowRect = images.getWindowRect(screenCapture, 'ffffff', { bottom: 10 });
   const getX = x => windowRect.x + (windowRect.width / scale.width) * x;
@@ -75,6 +68,32 @@ const execute = async () => {
     log(`detected ${rect.id}s:`, texts);
     return texts;
   };
+
+  robotjs.typeString(account.UserName);
+  robotjs.keyTap('tab');
+  robotjs.typeString(account.NewPassword || account.Password);
+  robotjs.keyTap('enter');
+  await wait(43000);
+  robotjs.moveMouse(getX(848), getY(116));
+  robotjs.mouseToggle('down', 'left');
+  await wait(500);
+  robotjs.moveMouse(getX(853), getY(464));
+  await wait(500);
+  robotjs.mouseToggle('up', 'left');
+  await goTo(places.ACCEPT_TERMS, getX, getY, 8000);
+  await goTo(places.PLAY, getX, getY, 43000);
+  await goTo(places.CLOSE_DIALOG, getX, getY, 5000);
+  await goTo(places.CODE_OF_CONDUCT_1, getX, getY);
+  await goTo(places.CODE_OF_CONDUCT_2, getX, getY);
+  await goTo(places.CODE_OF_CONDUCT_3, getX, getY);
+  await goTo(places.CODE_OF_CONDUCT_4, getX, getY);
+  await goTo(places.ACCEPT_CODE_OF_CONDUCT, getX, getY);
+  const [bannedText] = await getTextFromRect(rects.banned);
+  if (bannedText === 'PERMANENTLY BANNED') {
+    log(`Account ${account._id} is banned`);
+    Account.update({ _id: account._id }, { $set: { 'LOL.Banned': true } });
+    return next();
+  }
   await closeNotifications(getX, getY);
   const level = await getNumberFromRect(rects.level);
   const rp = await getNumberFromRect(rects.rp);
@@ -117,6 +136,7 @@ const execute = async () => {
   captures = captures.filter(c => c);
 
   const data = {
+    'LOL.Banned': false,
     'LOL.Level': level,
     'LOL.Elo': eloMepping[elo] || elo,
     'LOL.RP': rp || 0,
