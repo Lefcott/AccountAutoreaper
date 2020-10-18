@@ -177,7 +177,7 @@ const execute = async () => {
 
   const data = {
     'LOL.Banned': false,
-    'LOL.Level': level,
+    'LOL.Level': level || 1,
     'LOL.Elo': getElo(elo),
     'LOL.RP': rp || 0,
     'LOL.BlueEssence': blueEssence || 0,
