@@ -100,11 +100,11 @@ const execute = async () => {
   await logScreenInfo('Tap code of conduct 1');
   await goTo(places.CODE_OF_CONDUCT_1, getX, getY);
   await logScreenInfo('Tap code of conduct 2');
-  await goTo(places.CODE_OF_CONDUCT_2, getX, getY);
+  await goTo(places.CODE_OF_CONDUCT_2, getX, getY, 1800);
   await logScreenInfo('Tapp code of conduct 3');
-  await goTo(places.CODE_OF_CONDUCT_3, getX, getY);
+  await goTo(places.CODE_OF_CONDUCT_3, getX, getY, 2200);
   await logScreenInfo('Tap code of conduct 4');
-  await goTo(places.CODE_OF_CONDUCT_4, getX, getY, 10000);
+  await goTo(places.CODE_OF_CONDUCT_4, getX, getY, 1500);
   await logScreenInfo('Accept code of conduct');
   await goTo(places.ACCEPT_CODE_OF_CONDUCT, getX, getY);
   await logScreenInfo('Select play mode and wait 8 seconds');
