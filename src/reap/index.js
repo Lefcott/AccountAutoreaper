@@ -55,7 +55,7 @@ const execute = async () => {
   robotjs.keyTap('tab');
   robotjs.typeString(account.NewPassword || account.Password);
   robotjs.keyTap('enter');
-  await logScreenInfo('Hitted enter, waiting 10 seconds...');
+  await logScreenInfo('Hitted enter, waiting 15 seconds...');
   await wait(15000);
   if (await passesRectRegex(rects.terms)) {
     await logScreenInfo('Found terms and conditions, accepting...');
@@ -105,6 +105,8 @@ const execute = async () => {
     await logScreenInfo(`Detected required name change, changing to ${newName}`);
     await goTo(places.NAME_CHANGE_INPUT);
     robotjs.typeString(newName);
+    await logScreenInfo(`Writed name ${newName}, waiting 10 seconds before clicking button`);
+    await wait(10000);
     await goTo(places.NAME_CHANGE_BUTTON, 10000);
   }
   await logScreenInfo('Select play mode and wait 8 seconds');
