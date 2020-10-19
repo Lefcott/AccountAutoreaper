@@ -101,8 +101,8 @@ const execute = async () => {
   await logScreenInfo('Accept code of conduct');
   await goTo(places.ACCEPT_CODE_OF_CONDUCT);
   if (await passesRectRegex(rects.nameChange)) {
-    const newName = uuid().replace(/-/g, '');
-    await logScreenError(`Detected required name change, changing to ${newName}`);
+    const newName = uuid().replace(/-/g, '').substring(0, 14);
+    await logScreenInfo(`Detected required name change, changing to ${newName}`);
     await goTo(places.NAME_CHANGE_INPUT);
     robotjs.typeString(newName);
     await goTo(places.NAME_CHANGE_BUTTON, 10000);
