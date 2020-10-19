@@ -19,8 +19,9 @@ const execute = async () => {
   await logScreenInfo('Searching accounts...');
   const accounts = await Account.get(
     {
-      'LOL.Region': { $exists: true },
-      'LOL.Banned': { $exists: false },
+      'LOL.Region': { $exists: true, $ne: undefined },
+      'LOL.SessionError': { $ne: true },
+      'LOL.Banned': { $ne: false },
       $or: [{ NewPassword: { $exists: true } }, { EmailVerified: true }]
     },
     { limit: 1 }
@@ -85,11 +86,18 @@ const execute = async () => {
   robotjs.mouseToggle('down', 'left');
   await wait(500);
   robotjs.moveMouse(getX(853), getY(464));
-  await wait(500);
+  await wait(5000);
   robotjs.mouseToggle('up', 'left');
+  await logScreenInfo('Get sessionError');
+  const sessionErrorText = await getTextFromRect(rects.sessionError);
+  if (/error/i.test(sessionErrorText)) {
+    await logScreenError('Detected session error, updating account and trying again');
+    Account.update({ _id: account._id }, { $set: { 'LOL.SessionError': true } });
+    return next();
+  }
   await logScreenInfo('Closed terms and conditions, accepting second terms...');
   await goTo(places.ACCEPT_TERMS, getX, getY, 8000);
-  await logScreenInfo('Accepted second terms, hitting PLAY...');
+  await logScreenInfo('Accepted second terms, hitting PLAY and waiting 43 seconds...');
   await goTo(places.PLAY, getX, getY, 43000);
   await logScreenInfo('CLosing dialog 1...');
   await goTo(places.CLOSE_DIALOG, getX, getY, 5000);

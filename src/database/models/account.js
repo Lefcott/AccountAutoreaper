@@ -15,6 +15,7 @@ exports.account = mongoose.model(
       LOL: {
         Region: String,
         Banned: Boolean,
+        SessionError: Boolean,
         BlueEssence: Number,
         Level: Number,
         RP: Number,
