@@ -20,7 +20,7 @@ const getNumberFromRect = async rect => {
   );
   const texts = await textDetection.detectText(image, rect.id);
   await logScreenInfo(`detected ${rect.id}s:`, texts);
-  return +texts.filter(text => !isNaN(text))[0] || null;
+  return (texts && +texts.filter(text => !isNaN(text))[0]) || null;
 };
 const getTextFromRect = async rect => {
   const image = robotjs.screen.capture(
