@@ -56,7 +56,7 @@ const execute = async () => {
   robotjs.typeString(account.NewPassword || account.Password);
   robotjs.keyTap('enter');
   await logScreenInfo('Hitted enter, waiting 10 seconds...');
-  await wait(10000);
+  await wait(15000);
   if (await passesRectRegex(rects.terms)) {
     await logScreenInfo('Found terms and conditions, accepting...');
     robotjs.moveMouse(getX(848), getY(116));
