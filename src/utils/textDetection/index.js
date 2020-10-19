@@ -1,15 +1,22 @@
-const vision = require('@google-cloud/vision');
+const { ImageAnnotatorClient } = require('@google-cloud/vision');
 
-const { wait } = require('../wait');
+const clients = [
+  new ImageAnnotatorClient({ keyFile: `${__dirname}/config1.json` }),
+  new ImageAnnotatorClient({ keyFile: `${__dirname}/config2.json` })
+];
+let clientIndex = 0;
 
-const client = new vision.ImageAnnotatorClient({
-  keyFile: `${__dirname}/config.json`
-});
+const getClient = () => {
+  const client = clients[clientIndex];
+  clientIndex += 1;
+  if (clientIndex >= clients.length) clientIndex = 0;
+  return client;
+};
 
 const detectText = (image, id) =>
   new Promise(async resolve => {
     const fileName = await images.saveImage(image, id);
-    client
+    getClient()
       .textDetection(fileName)
       .then(([{ textAnnotations }]) => {
         const worlds = [];

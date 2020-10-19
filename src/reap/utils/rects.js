@@ -33,6 +33,14 @@ const getTextFromRect = async rect => {
   await logScreenInfo(`detected ${rect.id}s:`, texts);
   return texts;
 };
+const passesRectRegex = async rect => {
+  const texts = (await getTextFromRect(rect)) || [];
+  if (!rect.regex) {
+    rollbar.warn(`passesRectRegex called with rect without regex: ${JSON.stringify(rect, null, 2)}`);
+    return true;
+  }
+  return rect.regex.test(texts.join(','));
+};
 const setWindowRect = () => {
   const screenCapture = robotjs.screen.capture(0, 0, screen.width, screen.height);
   windowRect = images.getWindowRect(screenCapture, 'ffffff', { bottom: 10 });
@@ -45,5 +53,6 @@ module.exports = {
   getHeight,
   getNumberFromRect,
   getTextFromRect,
+  passesRectRegex,
   setWindowRect
 };

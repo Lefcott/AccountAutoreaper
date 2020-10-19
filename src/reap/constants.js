@@ -2,9 +2,13 @@ exports.lolPath = '"C:\\Riot Games\\League of Legends\\LeagueClient.exe"';
 exports.lolConfigPath = 'C:\\Riot Games\\League of Legends\\Config\\LeagueClientSettings.yaml';
 exports.scale = { width: 1280, height: 720 };
 exports.rects = {
-  tutorial: { x: 90, y: 24, width: 120, height: 35, id: 'tutorial' },
-  sessionError: { x: 415, y: 319, width: 447, height: 51, id: 'session_error' },
-  banned: { x: 390, y: 94, width: 515, height: 52, id: 'banned' },
+  // Texts with conditions
+  terms: { x: 430, y: 110, width: 414, height: 166, id: 'terms', regex: /terms/i },
+  afkWarn: { x: 470, y: 275, width: 355, height: 124, id: 'afkWarn', regex: /leaverbuster|abandoning/i },
+  sessionError: { x: 415, y: 319, width: 447, height: 51, id: 'session_error', regex: /error/i },
+  tutorial: { x: 90, y: 24, width: 120, height: 35, id: 'tutorial', regex: /tutorial/i },
+  banned: { x: 390, y: 94, width: 515, height: 52, id: 'banned', regex: /permanently|banned/i },
+  // Values to store
   level: { x: 1070, y: 50, width: 50, height: 25, id: 'level' },
   rp: { x: 975, y: 12, width: 85, height: 35, id: 'rp' },
   blueEssence: { x: 975, y: 40, width: 85, height: 26, id: 'blue_essence' },
@@ -42,7 +46,6 @@ exports.places = {
   LOOT: { x: 794, y: 45 }
 };
 const translates = {
-  isBanned: text => /permanently|banned/i.test(text),
   elo: {
     getUnranked: text => /unranked/i.test(text) && 'unranked',
     getIron: text => /iron/i.test(text) && 'iron',
@@ -84,7 +87,7 @@ exports.REGION_MAPPING = {
   oce: 'OCE', // TODO test if it's not OC1
   ru: 'RU',
   tr: 'TR1',
-  jp: 'JP1',
+  jp: 'JP',
   kr: 'KR',
   pbe: 'PBE'
 };
