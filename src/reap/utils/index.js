@@ -5,5 +5,6 @@ module.exports = {
   ...require('./goTo'),
   ...require('./log'),
   ...require('./openLOL'),
+  ...require('./rects'),
   ...require('./setLanguage')
 };

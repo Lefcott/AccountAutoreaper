@@ -7,8 +7,8 @@ const { scale, rects, hideRects } = require('./constants');
 const { places, translates, getElo } = require('./constants');
 const { openLOL, closeLOL, closeNotifications, goTo } = require('./utils');
 const { getDate, setLanguage, logScreenInfo, logScreenError } = require('./utils');
-
-const screen = robotjs.getScreenSize();
+const { getX, getY, getWidth, getHeight, getTextFromRect, getNumberFromRect } = require('./utils');
+const { setWindowRect } = require('./utils');
 
 const execute = async () => {
   await closeLOL();
@@ -42,34 +42,7 @@ const execute = async () => {
   await logScreenInfo('Language set OK, opening LOL...');
   await openLOL();
   await logScreenInfo('LOL opened, defining utils functions...');
-  const screenCapture = robotjs.screen.capture(0, 0, screen.width, screen.height);
-  const windowRect = images.getWindowRect(screenCapture, 'ffffff', { bottom: 10 });
-  const getX = x => windowRect.x + (windowRect.width / scale.width) * x;
-  const getY = y => windowRect.y + (windowRect.height / scale.height) * y;
-  const getWidth = w => (windowRect.width / scale.width) * w;
-  const getHeight = h => (windowRect.height / scale.height) * h;
-  const getNumberFromRect = async rect => {
-    const image = robotjs.screen.capture(
-      getX(rect.x),
-      getY(rect.y),
-      getWidth(rect.width),
-      getHeight(rect.height)
-    );
-    const texts = await textDetection.detectText(image, rect.id);
-    await logScreenInfo(`detected ${rect.id}s:`, texts);
-    return +texts.filter(text => !isNaN(text))[0] || null;
-  };
-  const getTextFromRect = async rect => {
-    const image = robotjs.screen.capture(
-      getX(rect.x),
-      getY(rect.y),
-      getWidth(rect.width),
-      getHeight(rect.height)
-    );
-    const texts = await textDetection.detectText(image, rect.id);
-    await logScreenInfo(`detected ${rect.id}s:`, texts);
-    return texts;
-  };
+  setWindowRect();
 
   await logScreenInfo('Typing credentials', account.UserName, account.NewPassword || account.Password);
   robotjs.typeString(account.UserName);
