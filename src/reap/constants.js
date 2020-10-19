@@ -46,7 +46,7 @@ const translates = {
   elo: {
     getUnranked: text => /unranked/i.test(text) && 'unranked',
     getIron: text => /iron/i.test(text) && 'iron',
-    getBronze: text => /bronze/i.test(text) && 'bronze',
+    getBronze: text => /bronze|bronce/i.test(text) && 'bronze',
     getSliver: text => /sliver/i.test(text) && 'sliver',
     getGold: text => /gold/i.test(text) && 'gold',
     getPlatinum: text => /platinum/i.test(text) && 'platinum',

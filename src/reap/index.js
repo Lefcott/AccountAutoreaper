@@ -5,12 +5,13 @@ require('../globals');
 
 const { scale, rects, hideRects } = require('./constants');
 const { places, translates, getElo } = require('./constants');
-const { openLOL, closeNotifications, goTo } = require('./utils');
+const { openLOL, closeLOL, closeNotifications, goTo } = require('./utils');
 const { getDate, setLanguage, logScreenInfo, logScreenError } = require('./utils');
 
 const screen = robotjs.getScreenSize();
 
 const execute = async () => {
+  await closeLOL();
   const next = async (time = 1000) => {
     await logScreenInfo(`Waiting ${time / 1000} seconds...`);
     setTimeout(execute, time);

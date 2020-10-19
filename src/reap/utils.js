@@ -5,7 +5,7 @@ const { exec } = require('child_process');
 
 const { lolPath, lolConfigPath, REGION_MAPPING } = require('./constants');
 
-exports.openLOL = async () => {
+exports.closeLOL = async () => {
   exec('taskkill /F /im LeagueClient.exe');
   exec('taskkill /F /im LeagueClientUx.exe');
   exec('taskkill /F /im LeagueClientUxRender.exe');
@@ -13,6 +13,10 @@ exports.openLOL = async () => {
   exec('taskkill /F /im RiotClientUx.exe');
   exec('taskkill /F /im RiotClientUxRender.exe');
   await wait(3000);
+  log('LOL Closed');
+};
+
+exports.openLOL = async () => {
   await scripts.run(lolPath);
   await wait(7500);
   log('LOL Started');
