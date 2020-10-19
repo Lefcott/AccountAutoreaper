@@ -8,6 +8,7 @@ exports.rects = {
   sessionError: { x: 415, y: 319, width: 447, height: 51, id: 'session_error', regex: /error/i },
   tutorial: { x: 90, y: 24, width: 120, height: 35, id: 'tutorial', regex: /tutorial/i },
   banned: { x: 390, y: 94, width: 515, height: 52, id: 'banned', regex: /permanently|banned/i },
+  nameChange: { x: 453, y: 17, width: 383, height: 66, id: 'name_change', regex: /name change/i },
   // Values to store
   level: { x: 1070, y: 50, width: 50, height: 25, id: 'level' },
   rp: { x: 975, y: 12, width: 85, height: 35, id: 'rp' },
@@ -33,6 +34,8 @@ exports.places = {
   CODE_OF_CONDUCT_3: { x: 965, y: 430 },
   CODE_OF_CONDUCT_4: { x: 965, y: 540 },
   ACCEPT_CODE_OF_CONDUCT: { x: 643, y: 666 },
+  NAME_CHANGE_INPUT: { x: 646, y: 422 },
+  NAME_CHANGE_BUTTON: { x: 640, y: 665 },
   SELECT_PLAY_MODE: { x: 670, y: 370 },
   SKIP_VIDEO: { x: 643, y: 665 },
   PROFILE: { x: 710, y: 45 },

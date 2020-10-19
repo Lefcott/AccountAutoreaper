@@ -1,5 +1,6 @@
 /* eslint-disable no-restricted-globals */
 const robotjs = require('robotjs');
+const { v4: uuid } = require('uuid');
 
 require('../globals');
 
@@ -54,8 +55,8 @@ const execute = async () => {
   robotjs.keyTap('tab');
   robotjs.typeString(account.NewPassword || account.Password);
   robotjs.keyTap('enter');
-  await logScreenInfo('Hitted enter, waiting 43 seconds...');
-  await wait(8000);
+  await logScreenInfo('Hitted enter, waiting 10 seconds...');
+  await wait(10000);
   if (await passesRectRegex(rects.terms)) {
     await logScreenInfo('Found terms and conditions, accepting...');
     robotjs.moveMouse(getX(848), getY(116));
@@ -99,6 +100,13 @@ const execute = async () => {
   await goTo(places.CODE_OF_CONDUCT_4, 1500);
   await logScreenInfo('Accept code of conduct');
   await goTo(places.ACCEPT_CODE_OF_CONDUCT);
+  if (await passesRectRegex(rects.nameChange)) {
+    const newName = uuid().replace(/-/g, '');
+    await logScreenError(`Detected required name change, changing to ${newName}`);
+    await goTo(places.NAME_CHANGE_INPUT);
+    robotjs.typeString(newName);
+    await goTo(places.NAME_CHANGE_BUTTON, 10000);
+  }
   await logScreenInfo('Select play mode and wait 8 seconds');
   await goTo(places.SELECT_PLAY_MODE, 8000);
   await logScreenInfo('Skip video');
