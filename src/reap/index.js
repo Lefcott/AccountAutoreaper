@@ -69,7 +69,7 @@ const execute = async () => {
     return texts;
   };
 
-  await logScreenInfo('Typing credentials...');
+  await logScreenInfo('Typing credentials', account.UserName, account.NewPassword || account.Password);
   robotjs.typeString(account.UserName);
   robotjs.keyTap('tab');
   robotjs.typeString(account.NewPassword || account.Password);
@@ -112,6 +112,12 @@ const execute = async () => {
   await logScreenInfo('Skip video');
   await goTo(places.SKIP_VIDEO, getX, getY);
   await logScreenInfo('Get banned text');
+  const [tutorialText] = await getTextFromRect(rects.tutorial);
+  if (/tutorial/i.test(tutorialText)) {
+    await logScreenInfo(`Account ${account._id} has not made tutorials, deleting it...`);
+    Account.delete({ _id: account._id || '1234' });
+    return next();
+  }
   const [bannedText] = await getTextFromRect(rects.banned);
   if (translates.isBanned(bannedText)) {
     await logScreenInfo(`Account ${account._id} is banned`);

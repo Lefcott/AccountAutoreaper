@@ -2,6 +2,7 @@ exports.lolPath = '"C:\\Riot Games\\League of Legends\\LeagueClient.exe"';
 exports.lolConfigPath = 'C:\\Riot Games\\League of Legends\\Config\\LeagueClientSettings.yaml';
 exports.scale = { width: 1280, height: 720 };
 exports.rects = {
+  tutorial: { x: 90, y: 24, width: 120, height: 35, id: 'tutorial' },
   banned: { x: 390, y: 94, width: 515, height: 52, id: 'banned' },
   level: { x: 1070, y: 50, width: 50, height: 25, id: 'level' },
   rp: { x: 975, y: 12, width: 85, height: 35, id: 'rp' },
