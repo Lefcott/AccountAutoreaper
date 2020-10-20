@@ -138,7 +138,7 @@ const execute = async () => {
   const rp = await getNumberFromRect(rects.rp);
   const blueEssence = await getNumberFromRect(rects.blueEssence);
   await logScreenInfo('Go to PROFILE');
-  await goTo(places.PROFILE, 6000);
+  await goTo(places.PROFILE, 10000);
   await logScreenInfo('Go to PROFILE_ELO');
   await goTo(places.PROFILE_ELO);
   await logScreenInfo('Get elo');
@@ -163,7 +163,7 @@ const execute = async () => {
   const lastPlay = lastPlayTexts.length === 2 ? getDate(lastPlayTexts) : null;
   await logScreenInfo('lastPlay', lastPlay);
   await logScreenInfo('Go to COLLECTION');
-  await goTo(places.COLLECTION);
+  await goTo(places.COLLECTION, 8000);
   await logScreenInfo('Capture collection_screen');
   captures.push(
     await images.uploadImage(robotjs.screen.capture(...captureRect), 'collection_screen', hideRects)
@@ -182,7 +182,7 @@ const execute = async () => {
   const refunds = await getNumberFromRect(rects.refunds);
   await logScreenInfo('refunds', refunds);
   await logScreenInfo('Go to LOOT');
-  await goTo(places.LOOT, 5000);
+  await goTo(places.LOOT, 7000);
   await logScreenInfo('Capture loot_screen');
   captures.push(await images.uploadImage(robotjs.screen.capture(...captureRect), 'loot_screen', hideRects));
   captures = captures.filter(c => c);
