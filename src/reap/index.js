@@ -7,10 +7,11 @@ require('../globals');
 const { scale, rects, hideRects } = require('./constants');
 const { places, getElo } = require('./constants');
 const { openLOL, closeLOL, closeNotifications, goTo } = require('./utils');
-const { getDate, setLanguage, logScreenInfo, logScreenError } = require('./utils');
+const { getDate, setRegion, logScreenInfo, logScreenError } = require('./utils');
 const { getX, getY, getWidth, getHeight, getTextFromRect, getNumberFromRect } = require('./utils');
-const { passesRectRegex, setWindowRect } = require('./utils');
+const { passesRectRegex, setWindowRect, watchLanguage } = require('./utils');
 
+watchLanguage();
 const execute = async () => {
   await closeLOL();
   const next = async (time = 1000) => {
@@ -38,15 +39,15 @@ const execute = async () => {
     return next(300000);
   }
   await logScreenInfo('Got account, setting language...');
-  const langOk1 = setLanguage('en_US', account);
+  const langOk1 = setRegion(account);
   if (!langOk1) return next(60000);
   await logScreenInfo('Language set OK, opening LOL...');
   await openLOL();
   await logScreenInfo(
     `Opened LOL, setting language second time to en_US and region to ${account.LOL.Region}...`
   );
-  const langOk2 = setLanguage('en_US', account);
-  if (!langOk2) return next(60000);
+  // const langOk2 = setRegion(account);
+  // if (!langOk2) return next(60000);
   await logScreenInfo('Language set OK');
   setWindowRect();
 
@@ -113,7 +114,11 @@ const execute = async () => {
   await goTo(places.SELECT_PLAY_MODE, 8000);
   await logScreenInfo('Skip video');
   await goTo(places.SKIP_VIDEO);
-  await logScreenInfo('Get banned text');
+  if (await passesRectRegex(rects.installing)) {
+    await logScreenInfo(`Account ${account._id} is downloading tutorials, deleting it...`);
+    Account.delete({ _id: account._id || '1234' });
+    return next();
+  }
   if (await passesRectRegex(rects.tutorial)) {
     await logScreenInfo(`Account ${account._id} has not made tutorials, deleting it...`);
     Account.delete({ _id: account._id || '1234' });
@@ -124,6 +129,8 @@ const execute = async () => {
     Account.update({ _id: account._id }, { $set: { 'LOL.Banned': true } });
     return next();
   }
+  await logScreenInfo('Close email verification');
+  await goTo(places.CLOSE_EMAIL_VERIFICATION);
   await logScreenInfo('Account is not banned, closing notifications');
   await closeNotifications();
   await logScreenInfo('Get level, rp and blue essence');
@@ -131,7 +138,7 @@ const execute = async () => {
   const rp = await getNumberFromRect(rects.rp);
   const blueEssence = await getNumberFromRect(rects.blueEssence);
   await logScreenInfo('Go to PROFILE');
-  await goTo(places.PROFILE);
+  await goTo(places.PROFILE, 6000);
   await logScreenInfo('Go to PROFILE_ELO');
   await goTo(places.PROFILE_ELO);
   await logScreenInfo('Get elo');
@@ -162,7 +169,7 @@ const execute = async () => {
     await images.uploadImage(robotjs.screen.capture(...captureRect), 'collection_screen', hideRects)
   );
   await logScreenInfo('Go to SHOP');
-  await goTo(places.SHOP, 6000);
+  await goTo(places.SHOP, 15000);
   await logScreenInfo('Go to SHOP_ACCOUNT');
   await goTo(places.SHOP_ACCOUNT);
   await logScreenInfo('Go to SHOP_ACCOUNT_HISTORY');

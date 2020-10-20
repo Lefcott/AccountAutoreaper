@@ -1,4 +1,4 @@
-exports.lolPath = '"C:\\Riot Games\\League of Legends\\LeagueClient.exe"';
+exports.lolPath = '"C:\\Riot Games\\League of Legends\\LeagueClient_English.lnk"';
 exports.lolConfigPath = 'C:\\Riot Games\\League of Legends\\Config\\LeagueClientSettings.yaml';
 exports.scale = { width: 1280, height: 720 };
 exports.rects = {
@@ -9,6 +9,7 @@ exports.rects = {
   tutorial: { x: 90, y: 24, width: 120, height: 35, id: 'tutorial', regex: /tutorial/i },
   banned: { x: 390, y: 94, width: 515, height: 52, id: 'banned', regex: /permanently|banned/i },
   nameChange: { x: 453, y: 17, width: 383, height: 66, id: 'name_change', regex: /name change/i },
+  installing: { x: 520, y: 20, width: 343, height: 53, id: 'installing', regex: /installing|\d%/i },
   // Values to store
   level: { x: 1070, y: 50, width: 50, height: 25, id: 'level' },
   rp: { x: 975, y: 12, width: 85, height: 35, id: 'rp' },
@@ -39,6 +40,7 @@ exports.places = {
   SELECT_PLAY_MODE: { x: 670, y: 370 },
   SKIP_VIDEO: { x: 643, y: 665 },
   PROFILE: { x: 710, y: 45 },
+  CLOSE_EMAIL_VERIFICATION: { x: 892, y: 91 },
   PROFILE_ELO: { x: 375, y: 600 },
   PROFILE_MATCH_HISTORY: { x: 190, y: 100 },
   ACCEPT_GENERAL_DIALOG: { x: 640, y: 400 },

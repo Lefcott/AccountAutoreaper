@@ -22,6 +22,7 @@
   "dependencies": {
     "@google-cloud/vision": "^2.1.2",
     "axios": "^0.20.0",
+    "chokidar": "^3.4.3",
     "colors": "^1.4.0",
     "desktop-screenshot": "^0.1.1",
     "dotenv": "^8.2.0",

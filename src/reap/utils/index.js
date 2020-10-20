@@ -6,5 +6,6 @@ module.exports = {
   ...require('./log'),
   ...require('./openLOL'),
   ...require('./rects'),
-  ...require('./setLanguage')
+  ...require('./setLanguage'),
+  ...require('./watchLanguage')
 };
