@@ -85,6 +85,11 @@ const execute = async () => {
   await goTo(places.ACCEPT_TERMS, 8000);
   await logScreenInfo('Accepted second terms, hitting PLAY and waiting 43 seconds...');
   await goTo(places.PLAY, 43000);
+  if (await passesRectRegex(rects.banned)) {
+    await logScreenInfo(`Account ${account._id} is banned`);
+    Account.update({ _id: account._id }, { $set: { 'LOL.Banned': true } });
+    return next();
+  }
   await logScreenInfo('CLosing dialog 1...');
   await goTo(places.CLOSE_DIALOG, 5000);
   await logScreenInfo('CLosing dialog 1_5...');
@@ -122,11 +127,6 @@ const execute = async () => {
   if (await passesRectRegex(rects.tutorial)) {
     await logScreenInfo(`Account ${account._id} has not made tutorials, deleting it...`);
     Account.delete({ _id: account._id || '1234' });
-    return next();
-  }
-  if (await passesRectRegex(rects.banned)) {
-    await logScreenInfo(`Account ${account._id} is banned`);
-    Account.update({ _id: account._id }, { $set: { 'LOL.Banned': true } });
     return next();
   }
   await logScreenInfo('Close email verification');
