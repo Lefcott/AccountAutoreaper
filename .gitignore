@@ -1,5 +1,4 @@
 node_modules
-.env
 package-lock.json
 *.png
 !src/utils/images/wallpaper_base.png
