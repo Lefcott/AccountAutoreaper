@@ -21,7 +21,7 @@ const execute = async () => {
   await logScreenInfo('Searching accounts...');
   const accounts = await Account.get(
     {
-      'LOL.Region': { $exists: true, $nin: [undefined, 'pbe'] },
+      'LOL.Region': { $exists: true, $ne: undefined, $nin: ['pbe'] },
       'LOL.SessionError': { $ne: true },
       'LOL.Banned': { $ne: false },
       $or: [{ NewPassword: { $exists: true } }, { EmailVerified: true }]
