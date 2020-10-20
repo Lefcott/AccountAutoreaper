@@ -24,7 +24,7 @@ const execute = async () => {
     {
       'LOL.Region': { $exists: true, $ne: undefined, $nin: ['pbe'] },
       'LOL.SessionError': { $ne: true },
-      'LOL.Banned': { $ne: false },
+      'LOL.Banned': { $exists: false },
       $or: [{ NewPassword: { $exists: true } }, { EmailVerified: true }]
     },
     { limit: 1 }
