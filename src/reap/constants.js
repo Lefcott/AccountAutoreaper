@@ -7,7 +7,14 @@ exports.rects = {
   afkWarn: { x: 470, y: 275, width: 355, height: 124, id: 'afkWarn', regex: /leaverbuster|abandoning/i },
   sessionError: { x: 415, y: 319, width: 447, height: 51, id: 'session_error', regex: /error/i },
   tutorial: { x: 90, y: 24, width: 120, height: 35, id: 'tutorial', regex: /tutorial/i },
-  banned: { x: 390, y: 94, width: 515, height: 52, id: 'banned', regex: /permanently|banned/i },
+  banned: {
+    x: 390,
+    y: 94,
+    width: 527,
+    height: 381,
+    id: 'banned',
+    regex: /permanently banned|account suspended|suspended permanently|has been suspended/i
+  },
   nameChange: { x: 453, y: 17, width: 383, height: 66, id: 'name_change', regex: /name change/i },
   installing: { x: 520, y: 20, width: 343, height: 53, id: 'installing', regex: /installing|\d%/i },
   // Values to store
