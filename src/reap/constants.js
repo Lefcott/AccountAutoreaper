@@ -81,15 +81,15 @@ exports.getElo = text => {
 };
 
 exports.REGION_MAPPING = {
-  br: 'BR2',
-  eune: 'EUN1',
-  euw: 'EUW1',
+  br: 'BR',
+  eune: 'EUNE',
+  euw: 'EUW',
   lan: 'LA1',
   las: 'LA2',
-  na: 'NA1',
-  oce: 'OCE', // TODO test if it's not OC1
+  na: 'NA',
+  oce: 'OC1',
   ru: 'RU',
-  tr: 'TR1',
+  tr: 'TR',
   jp: 'JP',
   kr: 'KR',
   pbe: 'PBE'
