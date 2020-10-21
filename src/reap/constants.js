@@ -15,7 +15,14 @@ exports.rects = {
     id: 'banned',
     regex: /permanently banned|account suspended|suspended permanently|has been suspended/i
   },
-  nameChange: { x: 453, y: 17, width: 383, height: 66, id: 'name_change', regex: /name change/i },
+  nameChange: {
+    x: 375,
+    y: 17,
+    width: 468,
+    height: 361,
+    id: 'name_change',
+    regex: /name change|desired name|what name/i
+  },
   installing: { x: 520, y: 20, width: 343, height: 53, id: 'installing', regex: /installing|\d%/i },
   // Values to store
   level: { x: 1070, y: 50, width: 50, height: 25, id: 'level' },
