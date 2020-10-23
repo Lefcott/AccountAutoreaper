@@ -109,7 +109,9 @@ const execute = async () => {
   if (await passesRectRegex(rects.nameChange)) {
     const newName = uuid().replace(/-/g, '').substring(0, 14);
     await logScreenInfo(`Detected required name change, changing to ${newName}`);
-    await goTo(places.NAME_CHANGE_INPUT);
+    await goTo(places.NAME_CHANGE_INPUT_1);
+    robotjs.typeString(newName);
+    await goTo(places.NAME_CHANGE_INPUT_2);
     robotjs.typeString(newName);
     await logScreenInfo(`Writed name ${newName}, waiting 10 seconds before clicking button`);
     await wait(10000);
