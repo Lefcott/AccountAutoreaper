@@ -49,7 +49,7 @@ exports.places = {
   CODE_OF_CONDUCT_3: { x: 965, y: 430 },
   CODE_OF_CONDUCT_4: { x: 965, y: 540 },
   ACCEPT_CODE_OF_CONDUCT: { x: 643, y: 666 },
-  NAME_CHANGE_INPUT: { x: 646, y: 422 },
+  NAME_CHANGE_INPUT: { x: 646, y: 363 },
   NAME_CHANGE_BUTTON: { x: 640, y: 665 },
   SELECT_PLAY_MODE: { x: 670, y: 370 },
   SKIP_VIDEO: { x: 643, y: 665 },
