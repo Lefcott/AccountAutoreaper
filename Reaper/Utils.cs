@@ -11,16 +11,16 @@ namespace Reaper
     {
       CloseLOL();
       await Task.Delay(1000);
-      OpenLOL();
+      OpenLOL(true);
     }
-    public static void OpenLOL()
+    public static void OpenLOL(bool waitForStart)
     {
       lolProcess.StartInfo.UseShellExecute = true;
       lolProcess.StartInfo.FileName = Constants.LolPath;
       lolProcess.Start();
-      Console.WriteLine("Opened process, waiting...");
-      lolProcess.WaitForInputIdle();
-      Console.WriteLine("Opened!");
+      Console.WriteLine("Opened LOL process, waiting...");
+      if (waitForStart) lolProcess.WaitForInputIdle();
+      Console.WriteLine("Opened LOL!");
     }
     public static void CloseLOL()
     {
