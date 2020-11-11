@@ -18,6 +18,9 @@ namespace Reaper
       lolProcess.StartInfo.UseShellExecute = true;
       lolProcess.StartInfo.FileName = Constants.LolPath;
       lolProcess.Start();
+      Console.WriteLine("Opened process, waiting...");
+      lolProcess.WaitForInputIdle();
+      Console.WriteLine("Opened!");
     }
     public static void CloseLOL()
     {
