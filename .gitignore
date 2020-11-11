@@ -3,3 +3,4 @@ node_modules
 package-lock.json
 *.png
 !src/utils/images/wallpaper_base.png
+obj
