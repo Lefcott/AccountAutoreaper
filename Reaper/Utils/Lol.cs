@@ -2,18 +2,25 @@ using System.Diagnostics;
 using System;
 using System.Threading.Tasks;
 
-namespace Reaper
+namespace Reaper.Utils
 {
-  public class Utils
+  public class Lol
   {
     static Process lolProcess = new Process();
-    public static async Task ResetLOL()
+    public static async Task Reset()
     {
-      CloseLOL();
+      Close();
       await Task.Delay(1000);
-      OpenLOL(true);
+      Open(true);
+      await Window.WaitForTitle(Constants.LolWindowTitle);
+      Window.Focus(Constants.LolWindowProcess);
+      // while (true)
+      // {
+      //   await Task.Delay(2000);
+      //   Window.Focus(Constants.LolWindowProcess);
+      // }
     }
-    public static void OpenLOL(bool waitForStart)
+    public static void Open(bool waitForStart)
     {
       lolProcess.StartInfo.UseShellExecute = true;
       lolProcess.StartInfo.FileName = Constants.LolPath;
@@ -22,14 +29,14 @@ namespace Reaper
       if (waitForStart) lolProcess.WaitForInputIdle();
       Console.WriteLine("Opened LOL!");
     }
-    public static void CloseLOL()
+    public static void Close()
     {
       foreach (string processName in Constants.LolProcessNames)
       {
         Process[] subProcesses = Process.GetProcessesByName(processName);
         foreach (Process subProcess in subProcesses)
         {
-          Console.WriteLine(@"Closing {subProcess.ProcessName}");
+          Console.WriteLine($"Closing {subProcess.ProcessName}");
           subProcess.CloseMainWindow();
           subProcess.Close();
         }
