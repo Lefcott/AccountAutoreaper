@@ -12,14 +12,14 @@ namespace Reaper
   {
     static async Task Main()
     {
-      // Console.WriteLine("Hello World!");
-      // await Utils.Lol.Reset();
+      await Utils.Lol.Reset();
       Account account = await Services.GetAccountToReap.Execute();
       Console.WriteLine($"User Name: {account.UserName}");
       Console.WriteLine($"Actual Password: {account.ActualPassword}");
       Keyboard.Write(account.UserName);
       Keyboard.PressKey(VirtualKeyCode.TAB);
       Keyboard.Write(account.ActualPassword);
+      Keyboard.PressKey(VirtualKeyCode.RETURN);
     }
   }
 }
