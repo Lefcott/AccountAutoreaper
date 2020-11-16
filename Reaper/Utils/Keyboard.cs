@@ -1,4 +1,3 @@
-using System.Windows.Input;
 using WindowsInput.Native;
 using WindowsInput;
 using System;
