@@ -5,6 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="InputSimulator" Version="*" />
+    <PackageReference Include="ironocr" Version="2020.11.2" />
     <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
   </ItemGroup>
 </Project>

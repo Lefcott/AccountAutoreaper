@@ -15,7 +15,8 @@ namespace Reaper
       // Utils.Mouse.SetCursorPosition(800, 200);
       // Utils.Mouse.MouseEvent(Utils.Mouse.MouseEventFlags.LeftDown);
 
-      Flow.Execute();
+      // Flow.Execute();
+      Ocr.Read();
 
       // Utils.Mouse.MouseEvent(Utils.Mouse.MouseEventFlags.LeftUp);
       // var color = Utils.Screen.GetPixelColor(25, 25);
