@@ -31,6 +31,8 @@ namespace Reaper.Utils
       bool redOk = Math.Abs(color.R - compareTo.R) <= diffLimit;
       bool greenOk = Math.Abs(color.G - compareTo.G) <= diffLimit;
       bool blueOk = Math.Abs(color.B - compareTo.B) <= diffLimit;
+      Console.WriteLine($"{x}, {y}");
+      // Console.WriteLine($"{compareTo.A}, {compareTo.R}, {compareTo.G}, {compareTo.B}");
       return alphaOk && redOk && greenOk && blueOk;
     }
   }

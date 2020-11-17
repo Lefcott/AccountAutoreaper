@@ -8,7 +8,7 @@
     "dev": "nodemon src -e env,js,json",
     "start": "node src",
     "reap": "node reap",
-    "show-colors": "node -r esm showColors"
+    "show-colors": "node -r esm scripts/showColors"
   },
   "repository": {
     "type": "git",
