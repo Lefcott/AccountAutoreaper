@@ -55,8 +55,8 @@ namespace Reaper
       active = false;
     }
     public static bool active = false;
-    private static int colorDiff = 8;
-    private static Check[] checks =
+    private static readonly int colorDiff = 8;
+    private static readonly Check[] checks =
     {
       //new Check()
       //  {

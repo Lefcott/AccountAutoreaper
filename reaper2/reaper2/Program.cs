@@ -1,4 +1,6 @@
 ﻿using System.Threading.Tasks;
+using WindowsInput.Native;
+using Reaper.Models;
 
 namespace Reaper
 {
@@ -8,7 +10,16 @@ namespace Reaper
     {
       //Utils.Ocr.ReadFromScreenRect(40, 0, 800, 30);
       //Utils.Image.Capture(100, 100, 100, 100);
-      await Flow.Execute();
+      while(true)
+      {
+        await Utils.Lol.Reset();
+        Account account = await Services.GetAccountToReap.Execute();
+        Utils.Keyboard.Write(account.UserName);
+        Utils.Keyboard.PressKey(VirtualKeyCode.TAB);
+        Utils.Keyboard.Write(account.ActualPassword);
+        Utils.Keyboard.PressKey(VirtualKeyCode.RETURN);
+        await Flow.Execute();
+      }
     }
   }
 }

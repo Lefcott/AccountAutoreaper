@@ -14,11 +14,6 @@ namespace Reaper.Utils
       Open(true);
       await Window.WaitForTitle(Constants.LolWindowTitle);
       Window.Focus(Constants.LolWindowProcess);
-      // while (true)
-      // {
-      //   await Task.Delay(2000);
-      //   Window.Focus(Constants.LolWindowProcess);
-      // }
     }
     public static void Open(bool waitForStart)
     {
